@@ -16,3 +16,6 @@ config.action_view.cache_template_extensions         = false
 
 # Don't care if the mailer can't send
 config.action_mailer.raise_delivery_errors = false
+
+ActiveRecord::Base.logger = Logger.new(File.open("log/activerecord.log", "w+"))
+ActiveRecord::Base.colorize_logging = false
