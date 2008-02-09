@@ -14,7 +14,9 @@ class CoursesController < ApplicationController
   # GET /courses/1
   def show
     @course = Course.find(params[:id])
-    puts params.inspect
+    #debugger
+    render :json => request.to_json
+    
     
     #respond_to do |format|
     #  format.html # show.html.erb
