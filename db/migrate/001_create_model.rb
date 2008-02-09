@@ -1,4 +1,4 @@
-class CreateCourses < ActiveRecord::Migration
+class CreateModel < ActiveRecord::Migration
   
   def self.up	
   	# JOIN TABLE for Course and CourseLecture
