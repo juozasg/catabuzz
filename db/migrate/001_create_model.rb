@@ -9,15 +9,15 @@ class CreateModel < ActiveRecord::Migration
 	
 	# CourseLecture
 	create_table :course_lectures do |t|
-		t.string :courseLectureCode
-		t.integer :enrollmentMax
-		t.integer :enrollmentCurrent
+		t.string :course_lecture_code
+		t.integer :enrollment_max
+		t.integer :enrollment_current
 		t.string :days
-		t.integer :startTime
-		t.integer :endTime
+		t.integer :start_time
+		t.integer :end_time
 		t.string :location
 		t.string :instructor
-		t.string :updateURL
+		t.string :update_url
 		t.string :footnotes
 		t.string :type
 		t.string :section
@@ -27,7 +27,7 @@ class CreateModel < ActiveRecord::Migration
 	
 	# Course
 	create_table :courses do |t|
-		t.string :courseCode
+		t.string :course_code
 		t.string :name #(full name if available, short name otherwise)
 		t.text :description
 		t.string :prerequisites
