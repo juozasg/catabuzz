@@ -1,8 +1,10 @@
 class Course < ActiveRecord::Base
+  acts_as_ferret :field => [:name, :course_code]
+  
 	has_many :course_lectures
 	belongs_to :department
 	
-	# courseCode:string (example: "LING101")
+	# course_code:string (example: "LING101")
 	# name:string (full name if available, short name otherwise)
 	# description:text
 	# prerequisites:string
@@ -13,6 +15,6 @@ class Course < ActiveRecord::Base
 	validates_presence_of :department
 	
 	# no spaces in courseCode (no "LING 101")
-	validates_format_of :courseCode, :with => /^\w+\d+\w*$/
-	validates_uniqueness_of :courseCode
+	validates_format_of :course_code, :with => /^\w+\d+\w*$/
+	validates_uniqueness_of :course_code
 end
