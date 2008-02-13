@@ -14,7 +14,7 @@ class Course < ActiveRecord::Base
 	
 	validates_presence_of :department
 	
-	# no spaces in courseCode (no "LING 101")
+	# no spaces in course_code (no "LING 101")
 	validates_format_of :course_code, :with => /^\w+\d+\w*$/
 	validates_uniqueness_of :course_code
 end
