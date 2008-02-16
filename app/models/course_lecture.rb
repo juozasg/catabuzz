@@ -1,5 +1,5 @@
 class CourseLecture < ActiveRecord::Base
-  acts_as_ferret :field => [:days, :start_time, :end_time, :instructor]
+  acts_as_ferret :field => [:days, :start_time, :end_time, :instructor, :course_code, :course_name]
 	belongs_to :course
 	has_and_belongs_to_many :schedules
 	
@@ -17,6 +17,18 @@ class CourseLecture < ActiveRecord::Base
   # t.string  "section"
   # t.integer "course_id",           :null => false
 	
+	
+	def course_code
+		return self.course.course_code
+	end
+	
+	def course_name
+		return self.course.name
+	end
+	
+	def units
+		return self.course.units
+	end
 	
 	validates_presence_of :course
 	validates_presence_of :schedules

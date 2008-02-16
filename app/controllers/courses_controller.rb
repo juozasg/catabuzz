@@ -3,6 +3,7 @@ class CoursesController < ApplicationController
   # GET /courses.xml
   def index
     @courses = Course.find(:all)
+    puts @courses.size
     puts params.inspect
 
     respond_to do |format|
@@ -43,6 +44,8 @@ class CoursesController < ApplicationController
   # POST /courses
   # POST /courses.xml
   def create
+  	puts params.inspect
+  	render :text => "as if created!"
     # @course = Course.new(params[:course])
     # 
     #    respond_to do |format|
@@ -77,6 +80,7 @@ class CoursesController < ApplicationController
   # DELETE /courses/1
   # DELETE /courses/1.xml
   def destroy
+  	render :text => "destroy!"
     # @course = Course.find(params[:id])
     #   @course.destroy
     # 
@@ -84,5 +88,5 @@ class CoursesController < ApplicationController
     #     format.html { redirect_to(courses_url) }
     #     format.xml  { head :ok }
     #   end
-    # end
+  end
 end
