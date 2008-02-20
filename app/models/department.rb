@@ -1,5 +1,5 @@
 class Department < ActiveRecord::Base
-  acts_as_ferret :field => [:name]
+  acts_as_ferret :fields => [:name]
     
 	has_many :courses
 	

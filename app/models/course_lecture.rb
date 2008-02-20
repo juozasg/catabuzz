@@ -1,5 +1,5 @@
 class CourseLecture < ActiveRecord::Base
-  acts_as_ferret :field => [:days, :start_time, :end_time, :instructor, :course_code, :course_name]
+  acts_as_ferret :fields => [:days, :start_time, :end_time, :instructor, :course_code, :course_name]
 	belongs_to :course
 	has_and_belongs_to_many :schedules
 	

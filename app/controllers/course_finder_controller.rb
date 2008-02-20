@@ -13,6 +13,7 @@ class CourseFinderController < ApplicationController
   end
   
   def get_results(query)
+    lectures = CourseLecture.find_by_contents
   	
   	
   	

@@ -1,5 +1,5 @@
 class Course < ActiveRecord::Base
-  acts_as_ferret :field => [:name, :course_code]
+  acts_as_ferret :fields => [:name, :course_code]
   
 	has_many :course_lectures
 	belongs_to :department
