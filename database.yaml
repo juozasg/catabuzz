@@ -1,2 +1,0 @@
-adapter: sqlite3
-dbfile: db/cat_dev.db
