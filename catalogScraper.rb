@@ -3,8 +3,6 @@ require 'rubygems'
 require 'hpricot'
 require 'open-uri'
 
-require "catalogModel.rb"
-
 class CatalogScraper
 	
 	def cutContentPortionFromDoc(doc)
