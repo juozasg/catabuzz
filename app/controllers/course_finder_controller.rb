@@ -8,16 +8,46 @@ class CourseFinderController < ApplicationController
     
     unless query.nil? or query.empty?
       @results = get_results(query)
+
   	end
     render 
   end
   
   def get_results(query)
-    lectures = CourseLecture.find_by_contents
-  	
-  	
-  	
+    ferret_query = build_ferret_query(query)
     
+    puts "ferret_query = " + "'" + ferret_query + "'"
+    lectures = CourseLecture.find_by_contents(ferret_query, {:limit => 20})
+    
+    return lectures
+    
+  end
+  
+private
+  
+  def build_ferret_query(query)
+    result = ""
+    
+    tokens = {}
+    # split the query string into tokens
+    
+    for token in query.split(/,|\s/) do
+      next if token.nil? or token.empty?
+      
+      case token
+      when /[MTWRFS]+/
+        tokens[:days] = token
+      end
+      
+      
+    end
+    
+    # collect ferret arguments
+    unless tokens[:days].nil?
+      result << " days:#{tokens[:days]}"
+    end
+    
+    return result
   end
   
  

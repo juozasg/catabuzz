@@ -13,9 +13,12 @@
 	</tr>
 <% unless @results.nil? %>
 	<% for result in @results %>
-		<% if result.is_a? CourseLecture%>
-		<%= results.course.name%>
-		<% end %>
+	
+		<tr>
+			<td><%= result.course.name %></td>
+			<td><%= result.ferret_score %></td>
+		</tr>
+	
 	<% end %>
 
 <% end %>
@@ -29,11 +32,3 @@
 </form>
 -->
 
-<!--
-<% form_tag('') do -%>
-<div>
-	<%= text_field_tag 'query', '', :size=> 30 %>
-	<%= submit_tag 'Search' %>
-</div>
-<% end -%>
--->
