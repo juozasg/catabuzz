@@ -24,31 +24,30 @@ class CourseFinderController < ApplicationController
   end
   
 private
-  
+
   def build_ferret_query(query)
     result = ""
-    
+  
     tokens = {}
     # split the query string into tokens
-    
+  
     for token in query.split(/,|\s/) do
       next if token.nil? or token.empty?
-      
+    
       case token
-      when /[MTWRFS]+/
+      when /M?T?W?R?F?S?(SU)?(TBA)?/
         tokens[:days] = token
       end
-      
-      
-    end
     
+    
+    end
+  
     # collect ferret arguments
     unless tokens[:days].nil?
       result << " days:#{tokens[:days]}"
     end
-    
-    return result
-  end
   
+    return result
+  end  
  
 end
