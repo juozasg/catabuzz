@@ -1,2 +1,2 @@
-module CourseLecturesHelper
+module CourseSectionsHelper
 end

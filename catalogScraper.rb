@@ -146,19 +146,22 @@ class CatalogScraper
 			STDOUT.flush
 			
 			#departments can be listed twice, so first check for existing one
-			department = Department.find(:all, :conditions => ["name = ?", departmentName]).first
+			department = Department.find(:first, :conditions => ["name = ?", departmentName])
 			
-			department = Department.create(:name => departmentName) if department.nil?
-		
+		  department = Department.create(:name => departmentName) if department.nil?
+	
 			# get the list of sections for this department
 			departmentCourseSectionList = scrapeCourseSectionList(sjsuRootUrl + courseSectionListUrl)
-			# set the department code
-			unless departmentCourseSectionList[0].nil?
-			  department.code = departmentCourseSectionList[0].departmentCode
-		  else
-		    department.code = "undefined"
-		  end
-		  department.save!
+			
+			# set the department code if we don't have one
+			if department.code.nil?
+		  	unless departmentCourseSectionList[0].nil?
+  			  department.code = departmentCourseSectionList[0].departmentCode
+  		  else
+  		    department.code = "undefined"
+  		  end
+  		  department.save!
+      end
 			
 			deparmentCourseCodesAndNames = departmentCourseSectionList.collect {|e| [e.courseCode, e.shortName]}
 			
