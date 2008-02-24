@@ -37,8 +37,7 @@ class CatalogScraper
 				courseCode = departmentCode + numericPart
 				courseShortName = cols[2].inner_text
 				
-				os = OpenStruct.new(:courseCode => courseCode, :departmentCode => departmentCode, :shortName => courseShortName, :courseSectionUrl => courseSectionUrl)
-				
+				os = OpenStruct.new(:courseCode => courseCode, :departmentCode => departmentCode, :shortName => courseShortName, :courseSectionUrl => courseSectionUrl)				
 				results << os
 			end
 	
@@ -80,8 +79,8 @@ class CatalogScraper
 	end
 	
 	def scrapeCourseSection(url)
-		# results << OpenStruct.new(:courseSectionCode => "40033", :footnotes => "73", :section => "01", :type => "LEC", :currentEnrollment => 67,
-		# 	 							:maxEnrollment => 70, :days => "MW", :startTime => 900, :endTime => 1015, :location => "DBH 222",
+		# results << OpenStruct.new(:course_section_code => "40033", :footnotes => "73", :section => "01", :type => "LEC", :current_enrollment => 67,
+		# 	 							:max_enrollment => 70, :days => "MW", :start_time => 900, :end_time => 1015, :location => "DBH 222",
 		# 								:instructor => "N Digre")
 		result = OpenStruct.new
 		doc = cutContentPortionFromDoc(Hpricot(open(url)))
@@ -101,22 +100,21 @@ class CatalogScraper
 		result.marshal_load(data)
 		
 		# rename some stuff
-		result.courseSectionCode = result.code
+		result.course_section_code = result.code
 		
 		# convert some stuff
 		md = /(\d+)\/(\d+)/.match(result.enrollment)
-		result.enrollmentCurrent = md[1].to_i
-		result.enrollmentMax = md[2].to_i
+		result.enrollment_current = md[1].to_i
+		result.enrollment_max = md[2].to_i
 		
 		md = /(\d+)\s+(\d+)/.match(result.time)
-		puts result.inspect
 		
 		# check for unannounced times
 		unless /TBA/ =~ result.time
-			result.startTime = md[1].to_i
-			result.endTime = md[2].to_i
+			result.start_time = md[1].to_i
+			result.end_time = md[2].to_i
 		else
-			result.startTime = result.endTime = nil
+			result.start_time = result.end_time = nil
 		end
 		
 		# delete extra stuff from result
@@ -160,8 +158,8 @@ class CatalogScraper
 		  else
 		    department.code = "undefined"
 		  end
+		  department.save!
 			
-	
 			deparmentCourseCodesAndNames = departmentCourseSectionList.collect {|e| [e.courseCode, e.shortName]}
 			
 			# for all the new course codes we have seen
@@ -182,17 +180,17 @@ class CatalogScraper
 			
 			# now we have Department > Course relationship complete (for this department)
 			# do each course section
-			departmentCourseSectionList.each do |lectureEntry|
+			departmentCourseSectionList.each do |sectionEntry|
 				# OpenStruct.new(:code => "ADV091", :shortName => "Intro Advertising", :courseSectionUrl => "/web-dbgen/soc-fall-courses/c667543.html")
-				courseSectionInfo = scrapeCourseSection(sjsuRootUrl + lectureEntry.courseSectionUrl)
+				courseSectionInfo = scrapeCourseSection(sjsuRootUrl + sectionEntry.courseSectionUrl)
 				
 				# include the url for updating enrollment
-				courseSectionInfo.updateURL = lectureEntry.courseSectionUrl
+				courseSectionInfo.update_url = sectionEntry.courseSectionUrl
 				
 				courseSection = CourseSection.new(courseSectionInfo.marshal_dump)
 				
-				# find the course info for this lecture
-				course = Course.find(:first, :conditions => ["code =?", lectureEntry.code])
+				# find the course info for this section
+				course = Course.find(:first, :conditions => ["code =?", sectionEntry.courseCode])
 				
 				courseSection.course = course
 				courseSection.schedules << schedule
