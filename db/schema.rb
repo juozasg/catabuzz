@@ -9,10 +9,10 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 2) do
+ActiveRecord::Schema.define(:version => 1) do
 
-  create_table "course_lectures", :force => true do |t|
-    t.string  "course_lecture_code"
+  create_table "course_sections", :force => true do |t|
+    t.string  "course_section_code"
     t.integer "enrollment_max"
     t.integer "enrollment_current"
     t.string  "days"
@@ -27,13 +27,13 @@ ActiveRecord::Schema.define(:version => 2) do
     t.integer "course_id",           :null => false
   end
 
-  create_table "course_lectures_schedules", :id => false, :force => true do |t|
-    t.integer "course_lecture_id", :null => false
+  create_table "course_sections_schedules", :id => false, :force => true do |t|
+    t.integer "course_section_id", :null => false
     t.integer "schedule_id",       :null => false
   end
 
   create_table "courses", :force => true do |t|
-    t.string  "course_code"
+    t.string  "code"
     t.string  "name"
     t.text    "description"
     t.string  "prerequisites"

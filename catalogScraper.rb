@@ -19,8 +19,8 @@ class CatalogScraper
 		return results	
 	end
 	
-	def scrapeCourseLectureList(url)
-		# results << OpenStruct.new(:code => "ADV091", :shortName => "Intro Advertising", :courseLectureUrl => "/web-dbgen/soc-fall-courses/c667543.html")
+	def scrapeCourseSectionList(url)
+		# results << OpenStruct.new(:code => "ADV091", :shortName => "Intro Advertising", :courseSectionUrl => "/web-dbgen/soc-fall-courses/c667543.html")
 		results = []
 		
 		doc = cutContentPortionFromDoc(Hpricot(open(url)))
@@ -32,11 +32,11 @@ class CatalogScraper
 				cols = row.search("td")
 				a = cols[0].at("a")
 				
-				courseLectureUrl = a["href"]		
+				courseSectionUrl = a["href"]		
 				courseCode = a.inner_text.split(" ").join("")
 				courseShortName = cols[2].inner_text
 				
-				os = OpenStruct.new(:code => courseCode, :shortName => courseShortName, :courseLectureUrl => courseLectureUrl)
+				os = OpenStruct.new(:code => courseCode, :shortName => courseShortName, :courseSectionUrl => courseSectionUrl)
 				
 				results << os
 			end
@@ -78,8 +78,8 @@ class CatalogScraper
 		return result
 	end
 	
-	def scrapeCourseLecture(url)
-		# results << OpenStruct.new(:courseLectureCode => "40033", :footnotes => "73", :section => "01", :type => "LEC", :currentEnrollment => 67,
+	def scrapeCourseSection(url)
+		# results << OpenStruct.new(:courseSectionCode => "40033", :footnotes => "73", :section => "01", :type => "LEC", :currentEnrollment => 67,
 		# 	 							:maxEnrollment => 70, :days => "MW", :startTime => 900, :endTime => 1015, :location => "DBH 222",
 		# 								:instructor => "N Digre")
 		result = OpenStruct.new
@@ -100,7 +100,7 @@ class CatalogScraper
 		result.marshal_load(data)
 		
 		# rename some stuff
-		result.courseLectureCode = result.code
+		result.courseSectionCode = result.code
 		
 		# convert some stuff
 		md = /(\d+)\/(\d+)/.match(result.enrollment)
@@ -141,7 +141,7 @@ class CatalogScraper
 		(doc/"table td").each do |td|
 			a = td.at("a")
 			
-			courseLectureListUrl =  a["href"]
+			courseSectionListUrl =  a["href"]
 			departmentName =  a.inner_text
 			
 			print "(#{curDep} of #{depCount}) -- #{departmentName}\t\t"
@@ -153,9 +153,9 @@ class CatalogScraper
 			department = Department.create(:name => departmentName) if department.nil?
 		
 			
-			departmentCourseLectureList = scrapeCourseLectureList(sjsuRootUrl + courseLectureListUrl)
+			departmentCourseSectionList = scrapeCourseSectionList(sjsuRootUrl + courseSectionListUrl)
 	
-			deparmentCourseCodesAndNames = departmentCourseLectureList.collect {|e| [e.code, e.shortName]}
+			deparmentCourseCodesAndNames = departmentCourseSectionList.collect {|e| [e.code, e.shortName]}
 			
 			# for all the new course codes we have seen
 			# we should scrape the description and create a course if it doesn't exist
@@ -175,21 +175,21 @@ class CatalogScraper
 			
 			# now we have Department > Course relationship complete (for this department)
 			# do each course lecture
-			departmentCourseLectureList.each do |lectureEntry|
-				# OpenStruct.new(:code => "ADV091", :shortName => "Intro Advertising", :courseLectureUrl => "/web-dbgen/soc-fall-courses/c667543.html")
-				courseLectureInfo = scrapeCourseLecture(sjsuRootUrl + lectureEntry.courseLectureUrl)
+			departmentCourseSectionList.each do |lectureEntry|
+				# OpenStruct.new(:code => "ADV091", :shortName => "Intro Advertising", :courseSectionUrl => "/web-dbgen/soc-fall-courses/c667543.html")
+				courseSectionInfo = scrapeCourseSection(sjsuRootUrl + lectureEntry.courseSectionUrl)
 				
 				# include the url for updating enrollment
-				courseLectureInfo.updateURL = lectureEntry.courseLectureUrl
+				courseSectionInfo.updateURL = lectureEntry.courseSectionUrl
 				
-				courseLecture = CourseLecture.new(courseLectureInfo.marshal_dump)
+				courseSection = CourseSection.new(courseSectionInfo.marshal_dump)
 				
 				# find the course info for this lecture
 				course = Course.find(:all, :conditions => ["courseCode =?", lectureEntry.code]).first
 				
-				courseLecture.course = course
-				courseLecture.schedules << schedule
-				courseLecture.save!
+				courseSection.course = course
+				courseSection.schedules << schedule
+				courseSection.save!
 				
 				#print "."
 				#STDOUT.flush

@@ -1,16 +1,30 @@
 require "catalogScraper.rb"
-require "catalogerSchema.rb"
+
+def drop_db(config)
+  case config['adapter']
+  when 'mysql'
+    ActiveRecord::Base.connection.drop_database config['database']
+  when /^sqlite/
+    puts "deleting: " + File.join(RAILS_ROOT, config['database'])
+    FileUtils.rm_f(File.join(RAILS_ROOT, config['database']))
+  when 'postgresql'
+    `dropdb "#{config['database']}"`
+  end
+end
 
 # only run as standalone
 if __FILE__ == $0
-	# -k - keep existing tables
+  
+  RAILS_ENV = "development"
+  require "config/environment"
+  	
+	# -k -- keep existing tables
 	unless ARGV[0] == "-k"
-		begin
-			CatalogerSchema.dropTables
-		rescue
-		end
-		CatalogerSchema.createTables
+	  config = ActiveRecord::Base.configurations[RAILS_ENV]
+		drop_db(config)
+		load(File.join(RAILS_ROOT, "db/schema.rb"))
 	end
 
-	CatalogScraper.new.scrapeAndCreateModel("http://info.sjsu.edu/web-dbgen/soc-fall-courses/", "http://info.sjsu.edu/")
+  #puts Department.find(:first).inspect
+	#CatalogScraper.new.scrapeAndCreateModel("http://info.sjsu.edu/web-dbgen/soc-fall-courses/", "http://info.sjsu.edu/")
 end
