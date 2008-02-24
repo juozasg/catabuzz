@@ -25,6 +25,5 @@ if __FILE__ == $0
 		load(File.join(RAILS_ROOT, "db/schema.rb"))
 	end
 
-  #puts Department.find(:first).inspect
-	#CatalogScraper.new.scrapeAndCreateModel("http://info.sjsu.edu/web-dbgen/soc-fall-courses/", "http://info.sjsu.edu/")
+  CatalogScraper.new.scrapeAndCreateModel("http://info.sjsu.edu/web-dbgen/soc-fall-courses/", "http://info.sjsu.edu/")
 end

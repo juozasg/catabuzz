@@ -20,7 +20,7 @@ class CatalogScraper
 	end
 	
 	def scrapeCourseSectionList(url)
-		# results << OpenStruct.new(:code => "ADV091", :shortName => "Intro Advertising", :courseSectionUrl => "/web-dbgen/soc-fall-courses/c667543.html")
+		# results << OpenStruct.new(:courseCode => "ADV091", :departmentCode => "ADV", :shortName => "Intro Advertising", :courseSectionUrl => "/web-dbgen/soc-fall-courses/c667543.html")
 		results = []
 		
 		doc = cutContentPortionFromDoc(Hpricot(open(url)))
@@ -33,10 +33,11 @@ class CatalogScraper
 				a = cols[0].at("a")
 				
 				courseSectionUrl = a["href"]		
-				courseCode = a.inner_text.split(" ").join("")
+				departmentCode, numericPart = a.inner_text.split(" ")
+				courseCode = departmentCode + numericPart
 				courseShortName = cols[2].inner_text
 				
-				os = OpenStruct.new(:code => courseCode, :shortName => courseShortName, :courseSectionUrl => courseSectionUrl)
+				os = OpenStruct.new(:courseCode => courseCode, :departmentCode => departmentCode, :shortName => courseShortName, :courseSectionUrl => courseSectionUrl)
 				
 				results << os
 			end
@@ -126,7 +127,6 @@ class CatalogScraper
 	
 	
 	def scrapeAndCreateModel(scheduleRootUrl, sjsuRootUrl)
-		
 		# url: "http://info.sjsu.edu/web-dbgen/soc-fall-courses/all-departments.html"
 		doc = cutContentPortionFromDoc(Hpricot(open(scheduleRootUrl + "/all-departments.html")))
 		
@@ -152,20 +152,27 @@ class CatalogScraper
 			
 			department = Department.create(:name => departmentName) if department.nil?
 		
-			
+			# get the list of sections for this department
 			departmentCourseSectionList = scrapeCourseSectionList(sjsuRootUrl + courseSectionListUrl)
+			# set the department code
+			unless departmentCourseSectionList[0].nil?
+			  department.code = departmentCourseSectionList[0].departmentCode
+		  else
+		    department.code = "undefined"
+		  end
+			
 	
-			deparmentCourseCodesAndNames = departmentCourseSectionList.collect {|e| [e.code, e.shortName]}
+			deparmentCourseCodesAndNames = departmentCourseSectionList.collect {|e| [e.courseCode, e.shortName]}
 			
 			# for all the new course codes we have seen
 			# we should scrape the description and create a course if it doesn't exist
 			deparmentCourseCodesAndNames.each do |code, shortName|
-				course = Course.find(:all, :conditions => ["courseCode =?", code]).first
+				course = Course.find(:first, :conditions => ["code =?", code])
 				if course.nil?
 					courseData = scrapeCourseDescription(sjsuRootUrl + "/web-dbgen/catalog/courses/" + code + ".html")
 					name = (courseData.fullName or shortName)
 					
-					course = Course.create(:name => name, :courseCode => code, :description => courseData.description, 
+					course = Course.create(:name => name, :code => code, :description => courseData.description, 
 									:prerequisites => courseData.prerequisites, :corequisites => courseData.corequisites,
 									:misc => courseData.misc, :units => courseData.units)
 				end
@@ -174,7 +181,7 @@ class CatalogScraper
 			end
 			
 			# now we have Department > Course relationship complete (for this department)
-			# do each course lecture
+			# do each course section
 			departmentCourseSectionList.each do |lectureEntry|
 				# OpenStruct.new(:code => "ADV091", :shortName => "Intro Advertising", :courseSectionUrl => "/web-dbgen/soc-fall-courses/c667543.html")
 				courseSectionInfo = scrapeCourseSection(sjsuRootUrl + lectureEntry.courseSectionUrl)
@@ -185,14 +192,12 @@ class CatalogScraper
 				courseSection = CourseSection.new(courseSectionInfo.marshal_dump)
 				
 				# find the course info for this lecture
-				course = Course.find(:all, :conditions => ["courseCode =?", lectureEntry.code]).first
+				course = Course.find(:first, :conditions => ["code =?", lectureEntry.code])
 				
 				courseSection.course = course
 				courseSection.schedules << schedule
 				courseSection.save!
 				
-				#print "."
-				#STDOUT.flush
 				
 			end
 			
