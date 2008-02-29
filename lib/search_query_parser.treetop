@@ -1,0 +1,10 @@
+grammar SearchQuert
+	rule string
+		 '"' (!'"' . / '\"')* '"'
+	end
+	
+	rule query
+		string / 'aa'
+	end
+	
+end
