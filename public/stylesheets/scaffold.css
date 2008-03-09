@@ -1,4 +1,9 @@
-body { background-color: #fff; color: #333; }
+body { background-color: #f4ffe0; color: #333; }
+
+table {
+	border-collapse: collapse;
+}
+
 
 body, p, ol, ul, td {
   font-family: verdana, arial, helvetica, sans-serif;
@@ -71,4 +76,79 @@ div.progressBar div.background {
   height: 18px;
   width: 0%;
 }
+
+input.button {
+	background-color: #99ff66;
+	border: 1px solid #00bb00;
+	padding: 1px 5px 1px 5px;
+	color: black;
+}
+
+.section_list_header th {
+	border-top: 1px solid #000;
+	border-bottom: 1px solid #000;
+	border-left: 1px solid #ababab;
+	
+}
+.section_list_header th.code {
+	border-left: 1px solid #000;
+}
+
+.section_list_header th.enrollment {
+	border-right: 1px solid #000;
+}
+
+
+.section_list_header th {
+	font-size: 12px;
+	font-weight: bold;
+	text-align: left;
+	background-color: #9FCB4E;
+	
+	padding: 0.2em 0.5em;
+}
+
+
+.section_search_results td {
+	border: 1px solid #ababab;
+	padding: 0.2em 0.5em;
+}
+
+th.code {
+	width:  7em;
+}
+
+th.name {
+	width: 25em;
+}
+
+th.days {
+	text-align: center;
+}
+
+.section_search_results td:first-child+td+td,
+.section_search_results td:first-child+td+td+td,
+.section_search_results td:first-child+td+td+td+td
+{
+	text-align: center;
+}
+
+.section_search_results td:first-child+td+td+td+td+td
+{
+	text-align: center;
+}
+
+
+
+tr.d0
+{
+	background-color: #eaf2dd;
+}
+
+tr.d1
+{
+	background-color: #fff;
+}
+
+
 
