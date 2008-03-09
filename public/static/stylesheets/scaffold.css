@@ -84,32 +84,34 @@ input.button {
 	color: black;
 }
 
-tr.section_list_header td {
+.section_list_header th {
 	border-top: 1px solid #333;
 	text-transform: capitalize;
 	font-size: 12px;
 	border-bottom: 1px solid #000;
 	font-weight: bold;
+	text-align: left;
 }
 
-td {
+td, th {
 	border-bottom: 1px solid #ababab;
 	padding: 0.1em 0.5em;
 }
 
-.section_search_results td+td {
+.section_search_results td+td,
+.section_search_results th+th {
 	border-left: 1px solid #ababab;
 }
 
-td.col_code {
+th.code {
 	width:  7em;
 }
 
-td.col_name {
+th.name {
 	width: 25em;
 }
 
-td.col_days {
+th.days {
 	text-align: center;
 }
 
