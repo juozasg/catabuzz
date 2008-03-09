@@ -1,4 +1,4 @@
-body { background-color: #e2fffd; color: #333; }
+body { background-color: #f4ffe0; color: #333; }
 
 table {
 	border-collapse: collapse;
@@ -85,22 +85,33 @@ input.button {
 }
 
 .section_list_header th {
-	border-top: 1px solid #333;
-	text-transform: capitalize;
-	font-size: 12px;
+	border-top: 1px solid #000;
 	border-bottom: 1px solid #000;
+	border-left: 1px solid #ababab;
+	
+}
+.section_list_header th.code {
+	border-left: 1px solid #000;
+}
+
+.section_list_header th.enrollment {
+	border-right: 1px solid #000;
+}
+
+
+.section_list_header th {
+	font-size: 12px;
 	font-weight: bold;
 	text-align: left;
+	background-color: #9FCB4E;
+	
+	padding: 0.2em 0.5em;
 }
 
-td, th {
-	border-bottom: 1px solid #ababab;
-	padding: 0.1em 0.5em;
-}
 
-.section_search_results td+td,
-.section_search_results th+th {
-	border-left: 1px solid #ababab;
+.section_search_results td {
+	border: 1px solid #ababab;
+	padding: 0.2em 0.5em;
 }
 
 th.code {
@@ -131,12 +142,12 @@ th.days {
 
 tr.d0
 {
-	background-color: #d4d4d4;
+	background-color: #eaf2dd;
 }
 
 tr.d1
 {
-	background-color: #fff2c3;
+	background-color: #fff;
 }
 
 
