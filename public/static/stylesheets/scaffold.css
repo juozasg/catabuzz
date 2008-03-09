@@ -1,4 +1,9 @@
-body { background-color: #fff; color: #333; }
+body { background-color: #e2fffd; color: #333; }
+
+table {
+	border-collapse: collapse;
+}
+
 
 body, p, ol, ul, td {
   font-family: verdana, arial, helvetica, sans-serif;
@@ -71,4 +76,66 @@ div.progressBar div.background {
   height: 18px;
   width: 0%;
 }
+
+input.button {
+	background-color: #99ff66;
+	border: 1px solid #00bb00;
+	padding: 1px 5px 1px 5px;
+	color: black;
+}
+
+tr.section_list_header td {
+	border-top: 1px solid #333;
+	text-transform: uppercase;
+	font-size: 13px;
+	font-weight: bold;
+	border-bottom: 1px solid #000;
+}
+
+td {
+	border-bottom: 1px solid #ababab;
+	padding: 0.1em 0.5em;
+}
+
+.section_search_results td+td {
+	border-left: 1px solid #ababab;
+}
+
+td.col_code {
+	width:  7em;
+}
+
+td.col_name {
+	width: 25em;
+}
+
+td.col_days {
+	text-align: center;
+}
+
+.section_search_results td:first-child+td+td,
+.section_search_results td:first-child+td+td+td,
+.section_search_results td:first-child+td+td+td+td
+{
+	text-align: center;
+}
+
+.section_search_results td:first-child+td+td+td+td+td
+{
+	text-align: center;
+}
+
+
+
+tr.d0
+{
+	background-color: #d4d4d4;
+}
+
+tr.d1
+{
+	background-color: #fff2c3;
+}
+
+
 

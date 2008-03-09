@@ -26,12 +26,14 @@
     -even_row = true
     -for result in @results do
     -row_class = even_row ? "d0" : "d1"
+    -enrollment_class = get_enrollment_cell_class(result.enrollment_current, result.enrollment_max)
     %tr{:class => row_class}
       %td=result.course_code
       %td=result.course_name
       %td=result.days
       %td=format_lecture_time(result.start_time)
       %td=format_lecture_time(result.end_time)
+      %td{:class => enrollment_class}=format_enrollment(result.enrollment_current, result.enrollment_max)
     -even_row = !even_row
     -end
 -end
