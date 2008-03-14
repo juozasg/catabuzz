@@ -9,9 +9,11 @@
 
 %br/
 
--total_results = @results.nil? ? 0 : @results.size
+-total_results = @results.nil? ? 0 : @results.total_entries
+
 
 -unless @results.nil? or @results.size < 1
+
 .section_search_results
   %table
     %tr.section_list_header
@@ -28,7 +30,7 @@
     -for result in @results do
     -row_class = even_row ? "d0" : "d1"
     -enrollment_class = get_enrollment_cell_class(result.enrollment_current, result.enrollment_max)
-    %tr{:class => [row_class, "csid_#{result.id}"]}
+    %tr{:class => [row_class, " csid_#{result.id}"]}
       %td=result.course_code
       %td=result.section
       %td=result.course_name
@@ -40,6 +42,10 @@
       %td=result.location
     -even_row = !even_row
     -end
+= will_paginate @results
+%h3#search_results_count="Found #{total_results} courses." 
+-else #@results.respond_to? :size and @results.size < 1
+%h3#search_results_count="Found no courses." 
 -end
 
-%h3#search_results_count="Found #{total_results} courses." 
+

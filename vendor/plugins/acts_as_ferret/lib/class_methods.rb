@@ -2,6 +2,17 @@ module ActsAsFerret
         
   module ClassMethods
 
+    def ferret_paginate_search(query, options = {})
+      page, per_page, total = wp_parse_options(options)
+      pager = WillPaginate::Collection.new(page, per_page, total)
+      options.merge!(:offset => pager.offset, :limit => per_page)
+      result = find_by_contents(query, options)
+      returning WillPaginate::Collection.new(page, per_page, result.total_hits) do |pager|
+        pager.replace result
+      end
+    end
+
+
     # Disables ferret index updates for this model. When a block is given,
     # Ferret will be re-enabled again after executing the block.
     def disable_ferret
@@ -450,16 +461,6 @@ module ActsAsFerret
           conditions.first << " and " << cust_opts.shift
           conditions.concat(cust_opts)
         end
-      end
-    end
-
-    def paginate_search(query, options = {})
-      page, per_page, total = wp_parse_options(options)
-      pager = WillPaginate::Collection.new(page, per_page, total)
-      options.merge!(:offset => pager.offset, :limit => per_page)
-      result = find_by_contents(query, options)
-      returning WillPaginate::Collection.new(page, per_page, result.total_hits) do |pager|
-        pager.replace result
       end
     end
 
