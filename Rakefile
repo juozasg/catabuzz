@@ -8,3 +8,12 @@ require 'rake/testtask'
 require 'rake/rdoctask'
 
 require 'tasks/rails'
+
+
+namespace :ferret do
+  desc "Rebuild all Indexes"
+  task :rebuild_all_indexes => [:environment] do
+    %w(Department Course CourseSection).each { |s| s.constantize.rebuild_index }
+  end
+end
+
