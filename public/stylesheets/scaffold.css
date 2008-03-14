@@ -124,18 +124,24 @@ th.name {
 	width: 25em;
 }
 
-th.days, th.starts, th.ends, th.enrollment {
+th.instructor {
+    width: 10em;
+}
+
+th.section, th.days, th.starts, th.ends, th.enrollment {
 	text-align: center;
 }
 
-.section_search_results td:first-child+td+td,
+/* Section */
+.section_search_results td:first-child+td,
+/* Days */
 .section_search_results td:first-child+td+td+td,
-.section_search_results td:first-child+td+td+td+td
-{
-	text-align: center;
-}
-
-.section_search_results td:first-child+td+td+td+td+td
+/* Starts */
+.section_search_results td:first-child+td+td+td+td,
+/* Ends */
+.section_search_results td:first-child+td+td+td+td+td,
+/* Enrollment */
+.section_search_results td:first-child+td+td+td+td+td+td
 {
 	text-align: center;
 }

@@ -16,6 +16,7 @@
   %table
     %tr.section_list_header
       %th.code{:scope => "col"} Code
+      %th.section{:scope => "col"} Section
       %th.name{:scope => "col"} Name
       %th.days{:scope => "col"} Days
       %th.starts{:scope => "col"} Starts
@@ -29,6 +30,7 @@
     -enrollment_class = get_enrollment_cell_class(result.enrollment_current, result.enrollment_max)
     %tr{:class => [row_class, "csid_#{result.id}"]}
       %td=result.course_code
+      %td=result.section
       %td=result.course_name
       %td=result.days
       %td=format_lecture_time(result.start_time)
