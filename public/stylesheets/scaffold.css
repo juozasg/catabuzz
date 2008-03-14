@@ -96,7 +96,7 @@ input.button {
 	border-left: 1px solid #000;
 }
 
-.section_list_header th.enrollment {
+.section_list_header th.location {
 	border-right: 1px solid #000;
 }
 
@@ -124,7 +124,7 @@ th.name {
 	width: 25em;
 }
 
-th.days {
+th.days, th.starts, th.ends, th.enrollment {
 	text-align: center;
 }
 
