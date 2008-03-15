@@ -1,5 +1,5 @@
-body { background-color: #f4ffe0; color: #333; 
-  margin-left: 15px;	
+body { background-color: #f4ffe0; color: #333;
+	margin-left: 15px;
 }
 
 table {
@@ -27,6 +27,16 @@ a:hover { color: #fff; background-color:#000; }
   padding: 2px;
   background-color: red;
   display: table;
+}
+
+.exampleheader {
+	color: #333;
+	font-size: 0.7em;	
+}
+
+.example {
+	color: gray;
+	font-size: 0.7em;
 }
 
 #errorExplanation {
@@ -79,11 +89,21 @@ div.progressBar div.background {
   width: 0%;
 }
 
+
+input.text {
+  border: 1px solid #000;
+	padding-top: 3px;
+	padding-bottom: 3px;
+}
+
 input.button {
-	background-color: #99ff66;
-	border: 1px solid #00bb00;
-	padding: 1px 5px 1px 5px;
-	color: black;
+	font-size: 12px;
+	font-weight: bold;
+	text-align: left;
+	background-color: #9FCB4E;
+	
+	border: 1px solid #000;
+	padding: 2px 6px 2px 5px;
 }
 
 .section_list_header th {
