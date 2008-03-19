@@ -41,6 +41,7 @@ module SearchQueryParser
          cmd = /mswin/ =~ RUBY_PLATFORM ? "tt.bat" : "tt"
          puts "Executing: #{cmd} #{opts}"
          exec("#{cmd} #{opts}")
+         load "dest"
       end
 
   end
