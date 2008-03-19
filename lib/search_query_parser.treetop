@@ -1,4 +1,4 @@
-grammar SearchQuert
+grammar SearchQuery
 	rule string
 		 '"' (!'"' . / '\"')* '"'
 	end
