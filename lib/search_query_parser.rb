@@ -1,6 +1,14 @@
-module SearchQueryParser
+require "treetop"
+
+module FerretSearchQueryParser
 
   FORCE_RECOMPILE = false
+
+  def self.prepare_parser
+      dir = File.expand_path(File.dirname(__FILE__))
+      dest = File.join(dir, "compiled_search_query_parser.rb")
+      load dest
+  end
 
   def self.build_ferret_query(query)
     recompile_parser
@@ -41,7 +49,7 @@ module SearchQueryParser
          cmd = /mswin/ =~ RUBY_PLATFORM ? "tt.bat" : "tt"
          puts "Executing: #{cmd} #{opts}"
          exec("#{cmd} #{opts}")
-         load "dest"
+         load dest
       end
 
   end
