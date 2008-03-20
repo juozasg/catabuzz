@@ -1,4 +1,4 @@
-grammar SearchQuery
+grammar TTSearchQuery
 	rule string
 		 '"' (!'"' . / '\"')* '"'
 	end

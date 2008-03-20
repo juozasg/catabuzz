@@ -2,6 +2,9 @@ require "test/unit"
 require "../../lib/search_query_parser.rb"
 
 class QueryParserTest < Test::Unit::TestCase
+  def setup
+      SearchQueryParser.prepare_parser
+  end
   # Replace this with your real tests.
   def test_run_method
   	s = SearchQueryParser.build_ferret_query("T")
