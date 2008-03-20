@@ -40,6 +40,10 @@ module SearchQueryParser
   def self.build_ferret_query(query)
     recompile_parser
 
+    parser = TTSearchQueryParser.new
+    puts "parsing: [#{query}]"
+    puts parser.parse(query).inspect
+
     result = ""
 
     tokens = {}
