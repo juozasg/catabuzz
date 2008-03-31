@@ -13,16 +13,16 @@ class QueryParserTest < Test::Unit::TestCase
   end
 
   def test_combos
-    q = SearchQueryParser.build_ferret_query("T")
-    assert_equal "days:T", q
+    q = SearchQueryParser.build_ferret_query("TW")
+    assert_equal "days:TW", q
     
   	q = SearchQueryParser.build_ferret_query("ADV101")
     assert_equal "code:ADV101", q
     
-    q = SearchQueryParser.build_ferret_query("T ADV101")
-    assert_equal "days:T code:ADV101", q
+    q = SearchQueryParser.build_ferret_query("MTR ADV101")
+    assert_equal "days:MTR code:ADV101", q
     
-    q = SearchQueryParser.build_ferret_query("ADV101 T")
+    q = SearchQueryParser.build_ferret_query("ADV101 t")
     assert_equal "code:ADV101 days:T", q
     
 

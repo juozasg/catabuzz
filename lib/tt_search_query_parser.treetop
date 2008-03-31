@@ -7,7 +7,7 @@ grammar TTSearchQuery
 #		string / 'aa'
 #	end
 	
-#	rule weekday
+#	rule weekdayz
 #		[Mm] / [Tt] / [Ww] / [Rr] / [Ff] / [Ss] / "TBA" / "tba" / "Tba" / "tBa" / "tbA"
 #	end
 	
@@ -26,14 +26,14 @@ grammar TTSearchQuery
 	end
 	
 	rule query
-		t / code
+		weekdays / code
 	end
 	
-	rule t
-		"T"
+	rule weekdays
+		([Mm] / [Tt] / [Ww] / [Rr] / [Ff] / [Ss] / "TBA" / "tba" / "Tba" / "tBa" / "tbA")+
 		{
 			def value
-				"days:T"
+				"days:#{text_value.upcase}"
 			end
 		}
 	end
@@ -48,7 +48,7 @@ grammar TTSearchQuery
 	end
 	
 	rule s
-		[ \t\n\r]
+		[ \t\n\r]+
 	end
 	
 end
