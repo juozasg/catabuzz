@@ -1,3 +1,4 @@
+require "rubygems"
 require "treetop"
 
 module SearchQueryParser
@@ -28,7 +29,7 @@ module SearchQueryParser
          opts =  "\"#{source}\" -o \"#{dest}\""
          cmd = /mswin/ =~ RUBY_PLATFORM ? "tt.bat" : "tt"
          puts "Executing: #{cmd} #{opts}"
-         exec("#{cmd} #{opts}")
+         system("#{cmd} #{opts}")
          load dest
          return true
       end
