@@ -7,4 +7,12 @@ grammar TTSearchQuery
 		string / 'aa'
 	end
 	
+	rule weekday
+		[Mm] / [Tt] / [Ww] / [Rr] / [Ff] / [Ss] / "TBA" / "tba" / "Tba" / "tBa" / "tbA"
+	end
+	
+	rule any
+		.*
+	end
+	
 end

@@ -25,7 +25,7 @@ module SearchQueryParser
       source = File.join(dir, SOURCE_PARSER_FILE)
       dest = File.join(dir, COMPILED_PARSER_FILE)
       # see if we need recompile (if we have the file and it's more recent than source)
-      if FORCE_RECOMPILE or !File.exist?(dest) or (File.atime(dest) < File.atime(source))
+      if FORCE_RECOMPILE or !File.exist?(dest) or (File.mtime(dest) < File.mtime(source))
          opts =  "\"#{source}\" -o \"#{dest}\""
          cmd = /mswin/ =~ RUBY_PLATFORM ? "tt.bat" : "tt"
          puts "Executing: #{cmd} #{opts}"
@@ -42,8 +42,8 @@ module SearchQueryParser
     recompile_parser
 
     parser = TTSearchQueryParser.new
-    puts "parsing: [#{query}]"
-    puts parser.parse(query).inspect
+    puts "parsing: '#{query}'"
+    puts "parser results: " + parser.parse(query).inspect
 
     result = ""
 
