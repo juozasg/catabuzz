@@ -1,18 +1,54 @@
 grammar TTSearchQuery
-	rule string
-		 '"' (!'"' . / '\"')* '"'
+#	rule string
+#		 '"' (!'"' . / '\"')* '"'
+#	end
+	
+#	rule query
+#		string / 'aa'
+#	end
+	
+#	rule weekday
+#		[Mm] / [Tt] / [Ww] / [Rr] / [Ff] / [Ss] / "TBA" / "tba" / "Tba" / "tBa" / "tbA"
+#	end
+	
+	
+	
+	rule search_query_root
+		query seq:(s query)* 
+		{
+			def value
+				seq.elements.inject(query.value) { |sum, el|
+			      sum + " " + el.query.value
+			    }
+				
+			end
+		}
 	end
 	
 	rule query
-		string / 'aa'
+		t / code
 	end
 	
-	rule weekday
-		[Mm] / [Tt] / [Ww] / [Rr] / [Ff] / [Ss] / "TBA" / "tba" / "Tba" / "tBa" / "tbA"
+	rule t
+		"T"
+		{
+			def value
+				"days:T"
+			end
+		}
 	end
 	
-	rule any
-		.*
+	rule code
+		"ADV101"
+		{
+			def value
+				"code:ADV101"
+			end
+		}
+	end
+	
+	rule s
+		[ \t\n\r]
 	end
 	
 end

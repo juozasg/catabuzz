@@ -42,31 +42,15 @@ module SearchQueryParser
     recompile_parser
 
     parser = TTSearchQueryParser.new
-    puts "parsing: '#{query}'"
-    puts "parser results: " + parser.parse(query).inspect
-
+    
+    resultNode = parser.parse(query.strip)
     result = ""
+    
+    result = resultNode.value unless resultNode.nil?
+    
+    puts "result: " + result
 
-    tokens = {}
-    # split the query string into tokens
-
-    for token in query.split(/,|\s/) do
-      next if token.nil? or token.empty?
-  
-      case token
-      when /[MTWRFS]+/
-        tokens[:days] = token
-      end
-  
-  
-    end
-
-    # collect ferret arguments
-    unless tokens[:days].nil?
-      result << " days:#{tokens[:days]}"
-    end
-
-    return result.strip
+    return result
   end
 
 end
