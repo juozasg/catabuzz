@@ -11,8 +11,6 @@ grammar TTSearchQuery
 #		[Mm] / [Tt] / [Ww] / [Rr] / [Ff] / [Ss] / "TBA" / "tba" / "Tba" / "tBa" / "tbA"
 #	end
 	
-	
-	
 	rule search_query_root
 		query seq:(s query)* 
 		{
@@ -30,7 +28,7 @@ grammar TTSearchQuery
 	end
 	
 	rule weekdays
-		([Mm] / [Tt] / [Ww] / [Rr] / [Ff] / [Ss] / "TBA" / "tba" / "Tba" / "tBa" / "tbA")+
+		("TBA" / "tba" / "Tba" / "tBa" / "tbA" / "TBa" / "TbA" / "tBA" / [Mm] / [Tt] / [Ww] / [Rr] / [Ff] / [Ss])+
 		{
 			def value
 				"days:#{text_value.upcase}"
@@ -39,10 +37,10 @@ grammar TTSearchQuery
 	end
 	
 	rule code
-		"ADV101"
+		[a-zA-Z]+ [0-9]+ [a-zA-z]*
 		{
 			def value
-				"code:ADV101"
+				"code:#{text_value.upcase}"
 			end
 		}
 	end
