@@ -7,9 +7,26 @@ class QueryParserTest < Test::Unit::TestCase
   end
   # Replace this with your real tests.
   def test_run_method
-  	#s = SearchQueryParser.build_ferret_query("T")
-  	#s = SearchQueryParser.build_ferret_query("")
+    s = SearchQueryParser.build_ferret_query("T")
+    s = SearchQueryParser.build_ferret_query("")
     assert true
+  end
+
+  def test_daysofweek
+    days = ["M", "T", "W", "R", "F", "S"]
+    # test upper and lower case
+    for d in days do
+      assert_equal "days:#{d}", SearchQueryParser.build_ferret_query("#{d}")
+      assert_equal "days:#{d}", SearchQueryParser.build_ferret_query("#{d.downcase}")
+    end
+
+    # test combos
+    combos = ["mTr", "Mt", "MFs", "mfS", "MTWRFS", "mtwrfs", "mTwRfS", "MtWrFs", "TS", "ts"]
+
+    for c in combos do
+      assert_equal "days:#{c.upcase}", SearchQueryParser.build_ferret_query("#{c}")
+    end
+
   end
 
   def test_combos
