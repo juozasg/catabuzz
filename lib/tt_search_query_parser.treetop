@@ -46,10 +46,17 @@ grammar TTSearchQuery
 	end
 
     rule timerange
-        ([0-9] [0-9] [0-9] [0-9]?) [ \t]* "-" [ \t]* ([0-9] [0-9] [0-9] [0-9]?)  
+        start_time:([0-9] [0-9] [0-9] [0-9]?) [ \t]* "-" [ \t]* end_time:([0-9] [0-9] [0-9] [0-9]?)  
         {
             def value
-                "start_time:lala"
+                s = start_time.text_value.to_i
+                e = end_time.text_value.to_i
+                if e > s
+                    "start_time:( >= #{s} ) end_time:( <= #{e} )"
+                else
+                    ""
+                end
+
             end
         }
     end
