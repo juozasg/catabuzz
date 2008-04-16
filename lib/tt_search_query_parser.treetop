@@ -44,6 +44,15 @@ grammar TTSearchQuery
 			end
 		}
 	end
+
+    rule timerange
+        ([0-9] [0-9] [0-9] [0-9]?) [ \t]* "-" [ \t]* ([0-9] [0-9] [0-9] [0-9]?)  
+        {
+            def value
+                "lalal"
+            end
+        }
+    end
 	
 	rule s
 		[ \t\n\r]+

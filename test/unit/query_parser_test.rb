@@ -38,14 +38,23 @@ class QueryParserTest < Test::Unit::TestCase
   end
 
   def test_codes
+    return
     codes = ["LING101", "A1", "A1b", "bob999d"]
     for c in codes do
       assert_equal "code:#{c.upcase}", SearchQueryParser.build_ferret_query("#{c}")
     end
   end
+
+  def test_times
+      assert_equal "start_time:lala", SearchQueryParser.build_ferret_query("900-910")
+      assert_equal "start_time:lala", SearchQueryParser.build_ferret_query("900- 910")
+      assert_equal "start_time:lala", SearchQueryParser.build_ferret_query("800 - 1000")
+      assert_equal "start_time:lala", SearchQueryParser.build_ferret_query("1100 -2200")
+  end
   
 
   def test_combos
+    return
   	q = SearchQueryParser.build_ferret_query("ADV101")
     assert_equal "code:ADV101", q
     
