@@ -24,7 +24,7 @@ grammar TTSearchQuery
 	end
 	
 	rule query
-		weekdays / code
+		weekdays / code / timerange
 	end
 	
 	rule weekdays
@@ -49,7 +49,7 @@ grammar TTSearchQuery
         ([0-9] [0-9] [0-9] [0-9]?) [ \t]* "-" [ \t]* ([0-9] [0-9] [0-9] [0-9]?)  
         {
             def value
-                "lalal"
+                "start_time:lala"
             end
         }
     end
