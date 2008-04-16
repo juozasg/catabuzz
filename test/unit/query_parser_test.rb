@@ -46,10 +46,10 @@ class QueryParserTest < Test::Unit::TestCase
   end
 
   def test_times
-      assert_equal "start_time:lala", SearchQueryParser.build_ferret_query("900-910")
-      assert_equal "start_time:lala", SearchQueryParser.build_ferret_query("900- 910")
-      assert_equal "start_time:lala", SearchQueryParser.build_ferret_query("800 - 1000")
-      assert_equal "start_time:lala", SearchQueryParser.build_ferret_query("1100 -2200")
+      assert_equal "start_time:( >= 900 ) end_time:( <= 910 )", SearchQueryParser.build_ferret_query("900-910")
+      assert_equal "start_time:( >= 900 ) end_time:( <= 910 )", SearchQueryParser.build_ferret_query("900- 910")
+      assert_equal "start_time:( >= 800 ) end_time:( <= 1000 )", SearchQueryParser.build_ferret_query("800 - 1000")
+      assert_equal "start_time:( >= 1100 ) end_time:( <= 2200 )", SearchQueryParser.build_ferret_query("1100 -2200")
   end
   
 
