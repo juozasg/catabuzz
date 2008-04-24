@@ -3,8 +3,8 @@
 
 
 -form_tag('', :method=>:get) do
-= text_field_tag('q', '', :size => 30)  
-= submit_tag 'Search', :name=> nil
+= text_field_tag 'q', '', :size => 30, :class => "text"
+= submit_tag 'Search', :name => nil, :class => "button"
 -end
 
 %br/
@@ -51,5 +51,7 @@
 
 %p.pages_list
   .pagination
-    = will_paginate @results, :container => false
+    = will_paginate @results, :container => false, :prev_label => "Prev", :next_label => "&gt"
     %span.result_count=total_results_text
+    
+    
