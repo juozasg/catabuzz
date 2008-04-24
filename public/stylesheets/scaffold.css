@@ -180,13 +180,28 @@ p.pages_list
 {
 	padding-top: 1px
 }
+
 .pagination a,
 .pagination span.disabled
 {
 	text-decoration: none;
-	border: 1px solid #000;
-	padding: 2px 6px 2px 6px;
+	border: 1px solid #ababab;
+	padding: 2px 6px 3px 6px;
+	background-color: #eaf2dd;
 	
+}
+
+.pagination span.current,
+{
+	color: #333;
+	font-weight: bold;
+}
+
+.pagination a:hover,
+{
+	color: #333;
+	font-weight: bold;
+	background-color: #9FCB4E;
 }
 
 

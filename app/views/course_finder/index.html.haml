@@ -51,7 +51,7 @@
 
 %p.pages_list
   .pagination
-    = will_paginate @results, :container => false, :prev_label => "Prev", :next_label => "&gt"
+    = will_paginate @results, :container => false, :prev_label => "&lt", :next_label => "&gt"
     %span.result_count=total_results_text
     
     
