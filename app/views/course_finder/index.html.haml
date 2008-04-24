@@ -11,6 +11,11 @@
 
 -total_results = @results.nil? ? 0 : @results.total_entries
 
+-if(total_results > 0)
+-total_results_text = "(#{total_results} courses found)" 
+-else
+-total_results_text = "(no courses found)"
+-end
 
 -unless @results.nil? or @results.size < 1
 
@@ -42,10 +47,9 @@
       %td=result.location
     -even_row = !even_row
     -end
-= will_paginate @results
-%h3#search_results_count="Found #{total_results} courses." 
--else #@results.respond_to? :size and @results.size < 1
-%h3#search_results_count="Found no courses." 
 -end
 
-
+%p.pages_list
+  .pagination
+    = will_paginate @results, :container => false
+    %span.result_count=total_results_text
