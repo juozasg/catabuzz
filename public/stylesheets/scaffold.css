@@ -89,9 +89,12 @@ div.progressBar div.background {
   width: 0%;
 }
 
+form.search {
+	margin-bottom: 8px;
+}
 
 input.text {
-  border: 1px solid #000;
+  	border: 1px solid #000;
 	padding-top: 2px;
 	padding-bottom: 3px;
 }
@@ -187,7 +190,6 @@ p.pages_list
 	background-color: #9FCB4E;
 }
 
-
 .pagination a
 {
 	text-decoration: none;
@@ -210,4 +212,9 @@ p.pages_list
 }
 
 
-
+.small_note p
+{
+	margin: 0px;
+	color: #8a8a8a;
+	font-family: "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+}

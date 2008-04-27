@@ -1,11 +1,12 @@
-%h2 Search
-%br/
+%h3 Find courses:
 
-
--form_tag('', :method=>:get) do
+-form_tag('', :method => :get, :class => "search") do
 = text_field_tag 'q', '', :size => 30, :class => "text"
 = submit_tag 'Search', :name => nil, :class => "button"
 -end
+.small_note 
+  %p Use any combination of weekdays, time ranges and course names.
+  %p (<em>Ex:</em> MT 1000-1930 LING101; "Principles of Petrology" 800-; calculus TWR 800-2100) 
 
 %br/
 
