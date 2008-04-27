@@ -181,8 +181,14 @@ p.pages_list
 	padding-top: 1px
 }
 
-.pagination a,
-.pagination span.disabled
+.pagination a:hover
+{
+	color: #333;
+	background-color: #9FCB4E;
+}
+
+
+.pagination a
 {
 	text-decoration: none;
 	border: 1px solid #ababab;
@@ -191,17 +197,16 @@ p.pages_list
 	
 }
 
-.pagination span.current,
+.pagination span.current
 {
 	color: #333;
 	font-weight: bold;
 }
 
-.pagination a:hover,
+.pagination span.disabled
 {
 	color: #333;
-	font-weight: bold;
-	background-color: #9FCB4E;
+	display: none;
 }
 
 
