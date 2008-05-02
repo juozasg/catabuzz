@@ -48,11 +48,11 @@
       %td=result.location
     -even_row = !even_row
     -end
--end
+
 
 %p.pages_list
   .pagination
     = will_paginate @results, :container => false, :prev_label => "&lt", :next_label => "&gt"
     %span.result_count=total_results_text
     
-    
+-end    
