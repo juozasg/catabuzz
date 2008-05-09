@@ -24,7 +24,7 @@ grammar TTSearchQuery
 	end
 	
 	rule query
-		weekdays / code / timerange
+		weekdays / code / timerange / dept
 	end
 	
 	rule weekdays
@@ -44,6 +44,15 @@ grammar TTSearchQuery
 			end
 		}
 	end
+
+    rule dept
+        [A-Z] [A-Z]+
+        {
+            def value
+                "department_name:*#{text_value}*"
+            end
+        }
+    end
 
     rule timerange
         start_time:([0-9] [0-9] [0-9] [0-9]?) [ \t]* "-" [ \t]* end_time:([0-9] [0-9] [0-9] [0-9]?)  

@@ -1,5 +1,15 @@
 class CourseSection < ActiveRecord::Base
-  acts_as_ferret :fields => [:days, :start_time, :end_time, :instructor, :course_code, :course_name]
+  acts_as_ferret :fields => {
+    :days => {:index => :untokenized}, 
+    :start_time => {:index => :untokenized},
+    :end_time => {:index => :untokenized},
+    :instructor,
+    :course_code => {:index => :untokenized},
+    :course_name,
+    :department_name => {:index => :untokenized},
+    :department_code => {:index => :untokenized}
+  }
+
 	belongs_to :course
 	has_and_belongs_to_many :schedules	
 	
@@ -14,6 +24,14 @@ class CourseSection < ActiveRecord::Base
 	def units
 		return self.course.units
 	end
+
+  def department_code
+    return self.course.department.code
+  end
+
+  def department_name
+    return self.course.department.name
+  end
 	
 	validates_presence_of :course
 	validates_presence_of :schedules

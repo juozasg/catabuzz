@@ -1,5 +1,9 @@
 class Department < ActiveRecord::Base
-  acts_as_ferret :fields => [:name, :code]
+  acts_as_ferret :fields => {
+    :name => {:index => :untokenized}, 
+    :code => {:index => :untokenized}
+  }
+  
     
 	has_many :courses
 	

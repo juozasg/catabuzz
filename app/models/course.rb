@@ -1,5 +1,8 @@
 class Course < ActiveRecord::Base
-  acts_as_ferret :fields => [:name, :code]
+  acts_as_ferret :fields => {
+    :name => {:index => :untokenized}, 
+    :code => {:index => :untokenized}
+  }
   
 	has_many :course_sections
 	belongs_to :department
