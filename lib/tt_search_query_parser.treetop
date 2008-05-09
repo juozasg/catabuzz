@@ -24,7 +24,7 @@ grammar TTSearchQuery
 	end
 	
 	rule query
-		weekdays / code / timerange / dept
+		code / weekdays / timerange
 	end
 	
 	rule weekdays
