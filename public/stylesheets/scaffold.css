@@ -89,10 +89,13 @@ div.progressBar div.background {
   width: 0%;
 }
 
+form.search {
+	margin-bottom: 8px;
+}
 
 input.text {
-  border: 1px solid #000;
-	padding-top: 3px;
+  	border: 1px solid #000;
+	padding-top: 2px;
 	padding-bottom: 3px;
 }
 
@@ -166,8 +169,6 @@ th.section, th.days, th.starts, th.ends, th.enrollment {
 	text-align: center;
 }
 
-
-
 tr.d0
 {
 	background-color: #eaf2dd;
@@ -178,5 +179,42 @@ tr.d1
 	background-color: #fff;
 }
 
+p.pages_list
+{
+	padding-top: 1px
+}
+
+.pagination a:hover
+{
+	color: #333;
+	background-color: #9FCB4E;
+}
+
+.pagination a
+{
+	text-decoration: none;
+	border: 1px solid #ababab;
+	padding: 2px 6px 3px 6px;
+	background-color: #eaf2dd;
+	
+}
+
+.pagination span.current
+{
+	color: #333;
+	font-weight: bold;
+}
+
+.pagination span.disabled
+{
+	color: #333;
+	display: none;
+}
 
 
+.small_note p
+{
+	margin: 0px;
+	color: #8a8a8a;
+	font-family: "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+}
