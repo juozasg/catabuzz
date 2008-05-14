@@ -3,9 +3,9 @@ class CourseSection < ActiveRecord::Base
     :days => {:index => :untokenized}, 
     :start_time => {:index => :untokenized},
     :end_time => {:index => :untokenized},
-    :instructor,
+    :instructor => {},
     :course_code => {:index => :untokenized},
-    :course_name,
+    :course_name => {},
     :department_name => {:index => :untokenized},
     :department_code => {:index => :untokenized}
   }
