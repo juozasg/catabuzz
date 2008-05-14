@@ -20,6 +20,7 @@
 
 -unless @results.nil? or @results.size < 1
 
+-# build the header
 .section_search_results
   %table
     %tr.section_list_header
@@ -32,12 +33,14 @@
       %th.enrollment{:scope => "col"} Enrollment
       %th.instructor{:scope => "col"} Instructor
       %th.location{:scope => "col"} Location
+      
     -even_row = true
+    -# build each row
     -for result in @results do
     -row_class = even_row ? "d0" : "d1"
     -enrollment_class = get_enrollment_cell_class(result.enrollment_current, result.enrollment_max)
     %tr{:class => [row_class, " csid_#{result.id}"]}
-      %td=result.course_code
+      %td=link_to(result.course_code, {:controller => 'course_sections', :action => 'show', :id => result.id}, {:class => 'dropdown_closed'})
       %td=result.section
       %td=result.course_name
       %td=result.days

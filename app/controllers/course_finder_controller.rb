@@ -19,9 +19,9 @@ class CourseFinderController < ApplicationController
     
     puts "ferret_query = " + "'" + ferret_query + "'"
 
-    lectures = CourseSection.ferret_paginate_search(ferret_query, :page => page, :per_page => 20)
+    sections = CourseSection.ferret_paginate_search(ferret_query, :page => page, :per_page => 20)
     #lectures = CourseSection.find_by_contents(ferret_query, {:limit => 20})
     
-    return lectures
+    return sections
   end
 end
