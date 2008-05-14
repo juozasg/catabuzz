@@ -1,11 +1,14 @@
 require "rubygems"
 require "treetop"
 
+$parser_prepared = false
+
 module SearchQueryParser
 
   FORCE_RECOMPILE = false
   SOURCE_PARSER_FILE = "tt_search_query_parser.treetop"
   COMPILED_PARSER_FILE = "_compiled_tt_search_query_parser.rb"
+
 
   def self.prepare_parser
       dir = File.expand_path(File.dirname(__FILE__))
@@ -15,8 +18,10 @@ module SearchQueryParser
       if File.exist?(dest)
         load dest
       else
-
+        except "Can't compile parser"
       end
+      
+      $parser_prepared = true
   end
 
   def self.recompile_parser
@@ -39,6 +44,8 @@ module SearchQueryParser
 
 
   def self.build_ferret_query(query)
+   
+    prepare_parser unless $parser_prepared
     recompile_parser
 
     parser = TTSearchQueryParser.new

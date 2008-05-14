@@ -1,8 +1,8 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :course_sections
+  # map.resources :course_sections
 
-  map.resources :courses
-
+  # map.resources :courses
+  
   # The priority is based upon order of creation: first created -> highest priority.
 
   # Sample of regular route:
@@ -34,7 +34,8 @@ ActionController::Routing::Routes.draw do |map|
   # See how all your routes lay out with "rake routes"
 
   # Install the default routes as the lowest priority.
-  map.connect ':controller/:action/:id', :controller => 'course_finder'
+  map.connect 'course_sections/:id', :controller => 'course_sections',  :action => 'show'
+  map.connect '', :controller => 'course_finder'
 
   #map.connect ':controller/:action/:id.:format'
 end
