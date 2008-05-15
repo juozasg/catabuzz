@@ -2,19 +2,21 @@ $(document).ready(function()
 {
   var createLoadDropdown = function(row, href)
   {
-    //alert(row);
-    //alert(href);
     var cols = row.children().size();
-    var tr = $("<tr></tr>");
-    tr.addClass("dropdown");
-    tr.addClass("dropdown2");
-    tr.html("OHMYGODD!");
+    var tr = $("<tr></tr>").addClass("dropdown");    
+    var td = $("<td></td").attr("colspan", cols);
+    var container = $("<div class='dropdown_container'></div>").appendTo(td);
+    
+    container.append("lalalal");
+    tr.append(td);
+    container.hide();
     tr.insertAfter($(row));
+    container.slideDown('fast');
   }
   
   var destroyDropdown = function(row)
   {
-    $(row).next().remove();
+    $(row).next().fadeOut('fast', function() {$(this).remove(); return false;});
   }
   
   var addDropdown = function(e)
