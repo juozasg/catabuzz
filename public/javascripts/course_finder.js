@@ -11,6 +11,7 @@ $(document).ready(function()
     tr.append(td);
     container.hide();
     tr.insertAfter($(row));
+    container.load("http://www.google.com");
     container.slideDown('fast');
   }
   
