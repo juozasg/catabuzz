@@ -2,30 +2,36 @@ $(document).ready(function()
 {
   var createLoadDropdown = function(row, href)
   {
-    alert(row);
-    alert(row.html());
-    //console.log(row.html());
-    console.log(href);
+    //alert(row);
+    //alert(href);
+    var cols = row.children().size();
+    var tr = $("<tr></tr>");
+    tr.addClass("dropdown");
+    tr.addClass("dropdown2");
+    tr.html("OHMYGODD!");
+    tr.insertAfter($(row));
   }
   
   var destroyDropdown = function(row)
   {
-    
+    $(row).next().remove();
   }
   
   var addDropdown = function(e)
   {
     $(e).removeClass("dropdown_closed").addClass("dropdown_disabled");
     var row = $(e).parents("tr");
-    createLoadDropdown(row);
-    //createLoadDropdown($(e).parent(), $(e).href());
+    var href = $(e).attr("href");
+    createLoadDropdown(row, href);
+
     $(e).removeClass("dropdown_disabled").addClass("dropdown_opened");
   }
   
   var removeDropdown = function(e)
   {
     $(e).removeClass("dropdown_opened").addClass("dropdown_disabled");
-    destroyDropdown($(e).parent())
+    var row = $(e).parents("tr");
+    destroyDropdown(row);
     $(e).removeClass("dropdown_disabled").addClass("dropdown_closed");
   }
   
