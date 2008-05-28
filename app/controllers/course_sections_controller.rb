@@ -81,5 +81,5 @@ class CourseSectionsController < ApplicationController
     #      format.html { redirect_to(course_sections_url) }
     #      format.xml  { head :ok }
     #    end
-    #  end
+  end
 end
