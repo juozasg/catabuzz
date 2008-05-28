@@ -5,13 +5,13 @@
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <title>Search SJSU courses</title>
-  <%= stylesheet_link_tag 'scaffold' %>
+  <%= stylesheet_link_tag 'mainstyle' %>
   <%= javascript_include_tag 'jquery' %>
   <%= javascript_include_tag 'course_finder' %>
 </head>
 <body>
 
-<p style="color: green"><%= flash[:notice] %></p>
+<p class = "flash notice"><%= flash[:notice] %></p>
 
 <%= yield  %>
 

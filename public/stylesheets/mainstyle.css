@@ -1,4 +1,6 @@
-body { background-color: #f4ffe0; color: #333;
+/* @override http://localhost:3000/stylesheets/mainstyle.css */
+
+body { background-color: #fffeef; color: #333;
 	margin-left: 15px;
 }
 
@@ -22,6 +24,10 @@ pre {
 a { color: #000; }
 a:visited { color: #666; }
 a:hover { color: #fff; background-color:#000; }
+
+.flash.notice {
+	color: green;
+}
 
 .fieldWithErrors {
   padding: 2px;
@@ -150,24 +156,23 @@ th.name {
 th.instructor {
     width: 10em;
 }
+border-style: groove;
+}
 
 th.section, th.days, th.starts, th.ends, th.enrollment {
 	text-align: center;
 }
 
-/* Section */
+
 .section_search_results td:first-child+td,
-/* Days */
 .section_search_results td:first-child+td+td+td,
-/* Starts */
 .section_search_results td:first-child+td+td+td+td,
-/* Ends */
 .section_search_results td:first-child+td+td+td+td+td,
-/* Enrollment */
 .section_search_results td:first-child+td+td+td+td+td+td
 {
 	text-align: center;
 }
+
 
 tr.d0
 {
