@@ -11,7 +11,7 @@ $(document).ready(function()
     tr.append(td);
     container.hide();
     tr.insertAfter($(row));
-    container.load("http://www.google.com");
+    container.load("http://ajax.phpmagazine.net/2006/01/firebug_1.html");
     container.slideDown('fast');
   }
   
@@ -37,8 +37,21 @@ $(document).ready(function()
     destroyDropdown(row);
     $(e).removeClass("dropdown_disabled").addClass("dropdown_closed");
   }
+
+	$(document).ajaxError(
+		function(){
+	    if (window.console && window.console.error) {
+	        console.error(arguments);
+	    }
+		});
   
-  $("body").error(function() {alert("ERRORS!!!"); return false;});
+  $("body").error(
+		function(){
+	    if (window.console && window.console.error) {
+	        console.error(arguments);
+			}
+	  });
+	
 	$(".section_search_results").click(
 	  function(event)
 	  {
