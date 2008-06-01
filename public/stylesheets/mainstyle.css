@@ -182,6 +182,16 @@ tr.d1
 	background-color: #fff;
 }
 
+td.enrollment_full
+{
+	color: red;	
+}
+
+td.enrollment_available
+{
+	
+}
+
 p.pages_list
 {
 	padding-top: 1px
