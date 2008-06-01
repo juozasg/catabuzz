@@ -7,11 +7,11 @@ $(document).ready(function()
     var td = $("<td></td").attr("colspan", cols);
     var container = $("<div class='dropdown_container'></div>").appendTo(td);
     
-    container.append("lalalal");
+    container.append(href);
     tr.append(td);
     container.hide();
     tr.insertAfter($(row));
-    container.load("http://ajax.phpmagazine.net/2006/01/firebug_1.html");
+    container.load(href);
     container.slideDown('fast');
   }
   

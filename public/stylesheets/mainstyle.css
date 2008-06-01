@@ -156,8 +156,6 @@ th.name {
 th.instructor {
     width: 10em;
 }
-border-style: groove;
-}
 
 th.section, th.days, th.starts, th.ends, th.enrollment {
 	text-align: center;

@@ -2,7 +2,9 @@ class CourseSectionsController < ApplicationController
   # GET /course_sections/1
   # GET /course_sections/1.xml
   def show
-    render :text => "got it #{params[:id]}"
+    @course_sections = CourseSection.find(params[:id])
+    
+    #render :text => "got it #{params[:id]}"
   
 #    @course_section = CourseSection.find(params[:id])
 
