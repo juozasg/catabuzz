@@ -7,7 +7,7 @@ $(document).ready(function()
     var td = $("<td></td").attr("colspan", cols);
     var container = $("<div class='dropdown_container'></div>").appendTo(td);
     
-    container.append(href);
+    container.append("lalal");
     tr.append(td);
     container.hide();
     tr.insertAfter($(row));
