@@ -1,3 +1,45 @@
 Data for Dropdown
 
+Present:
+	Code (ADV125)
+	Section (02)
+	Nice name (Advertising Layout and Production)
+	Days (MTW)
+	Time Range
+	Enrollment (20/20)
+	Instructor Surname
+	Location
+	
+Could link to new window:
+	Location (with a spot on the map)
+	Instructor (rate my professor)
+
+Need to put somewhere:
+	Big fat plus (and minus) for adding to the list
+	
+
+
+
+
+------------
+Other existing data:
+
+Department:
+	Code (ANTH)
+	Name (Anthropology)
+	
+Course:
+	Description
+	Corequisites
+	Misc
+	Units
+	
+Course Sections:
+	Section code (40033)
+	Footnotes (god knows what)
+	Type(LEC)
+	
+------------
+Row:
+
 ADV125  	02  	Advertising Layout and Production  	M  	18:00  	20:45  	20 / 20  	N Digre  	DBH 222
