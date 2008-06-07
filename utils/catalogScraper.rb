@@ -3,6 +3,7 @@ require 'rubygems'
 require 'hpricot'
 require 'open-uri'
 
+
 class CatalogScraper
 	
 	def cutContentPortionFromDoc(doc)
@@ -123,47 +124,58 @@ class CatalogScraper
 		return result
 	end
 	
+	def extractDepartmentItems(rootDoc)
+	  # results << OpenStruct.new(:href => '/web-dbgen/soc-spring-courses/d22710.html', name => 'ADVERTISING')
+	  
+	  # scrape department list
+		results = []
+		
+		(rootDoc/"table tr").each { |row|
+			a = td.at("td a")
+			results << OpenStruct.new(:href => a["href"], :name => a.inner_text)
+		}
+	  
+	  return results
+  end
+	
 	
 	def scrapeAndCreateModel(scheduleRootUrl, sjsuRootUrl)
-		# url: "http://info.sjsu.edu/web-dbgen/soc-fall-courses/all-departments.html"
-		doc = cutContentPortionFromDoc(Hpricot(open(scheduleRootUrl + "/all-departments.html")))
+		#scheduleRootUrl: "http://info.sjsu.edu/web-dbgen/soc-fall-courses/"
+		#sjsuRootUrl: "http://info.sjsu.edu/"
+		rootDoc = cutContentPortionFromDoc(Hpricot(open(scheduleRootUrl + "/all-departments.html")))
 		
-		scheduleName = doc.at(:h3).inner_text
+		scheduleName = rootDoc.at(:h3).inner_text
 		
 		schedule = Schedule.create(:name => scheduleName)
 		schedule.save!
 		
+		depList = extractDepartmentItems(rootDoc)
+		
 		# scrape department list
-		depCount = (doc/"table td").length
-		curDep = 1
-		(doc/"table td").each do |td|
-			a = td.at("a")
+		depList.each_with_index { |depItem, i|
+		  			
+			puts "(#{i + 1} of #{depList.length}) -- #{depItem.name}"
 			
-			courseSectionListUrl =  a["href"]
-			departmentName =  a.inner_text
-			
-			print "(#{curDep} of #{depCount}) -- #{departmentName}\t\t"
-			STDOUT.flush
-			
-			#departments can be listed twice, so first check for existing one
+			#departments can be listed twice, so first check for existing ones
 			department = Department.find(:first, :conditions => ["name = ?", departmentName])
-			
-		  department = Department.create(:name => departmentName) if department.nil?
-	
+			if(department.nil?)
+		    department = Department.create(:name => departmentName)
+	    end
+	    
 			# get the list of sections for this department
-			departmentCourseSectionList = scrapeCourseSectionList(sjsuRootUrl + courseSectionListUrl)
+			courseSectionList = scrapeCourseSectionList(sjsuRootUrl + depItem.href)
 			
 			# set the department code if we don't have one
 			if department.code.nil?
-		  	unless departmentCourseSectionList[0].nil?
-  			  department.code = departmentCourseSectionList[0].departmentCode
+		  	unless courseSectionList[0].nil?
+  			  department.code = courseSectionList[0].departmentCode
   		  else
   		    department.code = "undefined"
   		  end
   		  department.save!
       end
 			
-			deparmentCourseCodesAndNames = departmentCourseSectionList.collect {|e| [e.courseCode, e.shortName]}
+			courseCodesAndNames = courseSectionList.collect {|e| [e.courseCode, e.shortName]}
 			
 			# for all the new course codes we have seen
 			# we should scrape the description and create a course if it doesn't exist
@@ -204,7 +216,7 @@ class CatalogScraper
 			
 			print "\n"
 			curDep += 1
-		end
+		}
 					
 			
 	end

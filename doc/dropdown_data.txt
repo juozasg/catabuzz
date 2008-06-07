@@ -18,9 +18,6 @@ Need to put somewhere:
 	Big fat plus (and minus) for adding to the list
 	
 
-
-
-
 ------------
 Other existing data:
 
@@ -38,6 +35,12 @@ Course Sections:
 	Section code (40033)
 	Footnotes (god knows what)
 	Type(LEC)
+		LEC  =  lecture 
+		ACT  =  activity 
+		LAB  =  laboratory 
+		SEM =  Seminar 
+		SUP  =  Supervision
+		
 	
 ------------
 Row:
