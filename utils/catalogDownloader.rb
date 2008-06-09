@@ -4,6 +4,7 @@ require 'hpricot'
 require 'uri'
 require 'open-uri'
 require 'pathname'
+require 'fileutils'
 
 require 'catalogScraper.rb'
 
@@ -15,20 +16,19 @@ class CatalogDownloader
   	@remoteHost = remoteHost
   	@remoteLocation = remoteLocation
   	@localHostRoot = localHostRoot
-  	@remoteUrl = URI.join(@remoteHost, @remoteLocation)
+  	@remoteUrl = URI.join(@remoteHost, @remoteLocation).to_s
   end
   
   def download
     depListUrl = "/all-departments.html"
     
-    scraper = CatalogScraper.new
+    scraper = CatalogScraper.new(@localHostUrl, @remoteLocation)
 
     # get the read and write locations for the url
-    depListRemoteUrl = URI.join(@remoteUrl, depListUrl).to_s
+    depListRemoteUrl = File.join(@remoteUrl, depListUrl).to_s
     depListLocalUrl = File.join(@localHostRoot, @remoteLocation, depListUrl)
 
-    print "Downloading list from:#{depListRemoteUrl}\nto\n#{depListLocalUrl}"
-    $STDOUT.flush
+    puts "Downloading list from: #{depListRemoteUrl}\nto\n#{depListLocalUrl}"
     # write the local copy
     getPage(depListRemoteUrl, depListLocalUrl)
     
@@ -41,7 +41,7 @@ class CatalogDownloader
 	  depList.each_with_index { |dep, i|
 	    puts "Processing #{i + 1} of #{depList.length} -- #{dep.name}"
 	    
-	    sectionListRemoteUrl = URI.join(@remoteHost, dep.href).to_s
+	    sectionListRemoteUrl = File.join(@remoteHost, dep.href).to_s
 	    sectionListLocalUrl = File.join(@localHostRoot, dep.href)
 	    
 	    # download department file (section list)
@@ -64,21 +64,21 @@ class CatalogDownloader
 	
 	def processSectionList(sectionList)
 	  courseCatalogUrl = "/web-dbgen/catalog/courses/"
-	  remoteCourseCatalogUrl = URI.join(@remoteHost, courseCatalogUrl).to_s
+	  remoteCourseCatalogUrl = File.join(@remoteHost, courseCatalogUrl).to_s
 	  
 	  sectionList.each_with_index { |section, i|
 
 	    # download the section file (course section tabular data)
 	    # get paths
-	    sectionRemoteUrl = URI.join(@remoteHost, section.courseSectionUrl).to_s
-	    sectionLocalUrl = File.join(@localHostRoot, sectionLocalUrl.courseSectionUrl)
+	    sectionRemoteUrl = File.join(@remoteHost, section.courseSectionUrl).to_s
+	    sectionLocalUrl = File.join(@localHostRoot, section.courseSectionUrl)
 	    
 	    # get the data
 	    getPage(sectionRemoteUrl, sectionLocalUrl)
 	 
   	  # now get the course data
   	  # get the urls
-  	  courseRemoteUrl = URI.join(remoteCourseCatalogUrl, section.courseCode + ".html").to_s
+  	  courseRemoteUrl = File.join(remoteCourseCatalogUrl, section.courseCode + ".html").to_s
   	  courseLocalUrl = File.join(@localHostRoot, courseCatalogUrl, section.courseCode + ".html").to_s
 
 	    # get the data if we don't have it
@@ -92,9 +92,17 @@ class CatalogDownloader
   end
   
   def getPage(remoteUrl, localUrl)
+    # make dir if we must
+    dir, file = File.split(localUrl)
+    FileUtils.mkdir_p(dir)
+    puts "[Getting]...#{remoteUrl}"
     File.open(localUrl, "w+") { |f|
+      begin
   	    data = open(remoteUrl).read
   	    f.write(data)
+  	  rescue OpenURI::HTTPError => e
+  	    puts "Can't download: #{remoteUrl}\nError: #{e.inspect}"
+	    end
   	}
   end
 	

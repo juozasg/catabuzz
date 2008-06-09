@@ -1,0 +1,38 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+require 'catalogDownloader.rb'
+
+options = {
+  :remoteHost => "http://info.sjsu.edu/",
+  :remoteLocation => "/web-dbgen/soc-fall-courses/",
+  :localHostRootDir => "./downloads"
+}
+
+parser = OptionParser.new do |op|
+  op.banner = "Usage: (download|scrape|both|update) [-h REMOTE_HOST] [-l REMOTE_LOCATION] [-d LOCAL_HOST_ROOT_DIR]\n"
+  
+  op.on("-h REMOTE_HOST", "(Default: #{options[:remoteHost]})") { |val| options[:remoteHost] = val}
+  op.on("-l REMOTE_LOCATION", "(Default: #{options[:remoteLocation]})") { |val| options[:remoteLocation] = val}
+  op.on("-d LOCAL_HOST_ROOT_DIR", "(Default: #{options[:localHostRootDir]})") { |val| options[:localHostRootDir] = val}
+end
+
+action = ARGV.shift
+if ["download", "scrape", "both", "update"].include? action
+  # got the right command
+  parser.parse!
+  if(action == "download" or action == "both")
+    downloader = CatalogDownloader.new(options[:remoteHost], options[:remoteLocation], options[:localHostRootDir])
+    downloader.download
+  end
+  if(action == "download" or action == "both")
+    scraper = CatalogScraper.new(options[:localHostRootDir], options[:remoteLocation])
+    scraper.scrape
+  end
+  if(action == "update")
+    puts "'update' not implemented yet!"
+  end
+else
+  puts parser
+  exit(1)
+end

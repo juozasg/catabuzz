@@ -12,7 +12,7 @@ class CatalogScraper
     @location = location
   end
   
-  def scrapeCatalog
+  def scrape
 		depListUrl = File.join(@localHostRoot, @location, "/all-departments.html")
 		
 		puts "Scraping data from #{File.join(@localHostRoot, @location)}"
@@ -21,18 +21,26 @@ class CatalogScraper
 		schedule = createSchedule(depListUrl)
 		
 		# get the list of department
-		depList = scrapeDepartmentItems(depListUrl)
+		depList = scrapeDepartmentList(depListUrl)
 		
-		# hanle each department
+		# handle each department
 		depList.each_with_index { |depItem, i|  			
 			puts "(#{i + 1} of #{depList.length}) -- #{depItem.name}"
 
-			createDepartment(depItem.name, depItem.url, schedule)
+			createDepartmentAndCourses(depItem.name, depItem.url, schedule)
 		}
 		
 		puts "Scraper...Done!"
 			
 	end
+	
+	def cutContentPortionFromDoc(doc)
+		text = doc.inner_html
+		md = /<!-- content starts here -->(.*?)<!-- content ends here -->/m.match(text)
+		
+		return Hpricot(md[1])
+	end
+	
   
 	def createSchedule(rootUrl)
 	  rootDoc = cutContentPortionFromDoc(Hpricot(open(rootUrl)))
@@ -43,16 +51,19 @@ class CatalogScraper
 		return schedule.save!
 	end
 	
-	def createDepartment(depName, depUrl, schedule)	  	#departments can be listed twice, so first check for existing ones
-			department = Department.find(:first, :conditions => ["name = ?", departmentName])
+	def createDepartmentAndCourses(depName, depUrl, schedule)
+	  	#departments can be listed twice, so first check for existing ones
+			department = Department.find(:first, :conditions => ["name = ?", depName])
 			if(department.nil?)
-		    department = Department.create(:name => departmentName)
+		    department = Department.create(:name => depName)
 	    end
 	    
 			# get the list of sections for this department
-			courseSectionList = scrapeCourseSectionList(sjsuRootUrl + depItem.href)
+			sectionListUrl = File.join(@localHostRoot, depUrl)
+			courseSectionList = scrapeCourseSectionList(sectionListUrl)
 			
 			# set the department code if we don't have one
+			# use the first course section in the list to get the department code
 			if department.code.nil?
 		  	unless courseSectionList[0].nil?
   			  department.code = courseSectionList[0].departmentCode
@@ -61,62 +72,71 @@ class CatalogScraper
   		  end
   		  department.save!
       end
+						
+			# we have a list of course sections now, which belong to Courses
+			# we should create a Course (or use an existing one)
+			# then create a course section
+			courseSectionList.each do |sectionItem|
+			  shortName = sectionItem.shortName
+			  courseCode = sectionItem.courseCode
+			  
+			  # create or find a course for this course section
+			  course = createOrFindCourse(courseCode, shortName, department)
+			  
+			  # create the course section
+			  courseSection = createCourseSection(sectionItem.courseSectionUrl)
+			  courseSection.course = course
+			  courseSection.schedules << schedule
+			  courseSection.save
 			
-			courseCodesAndNames = courseSectionList.collect {|e| [e.courseCode, e.shortName]}
-			
-			# for all the new course codes we have seen
-			# we should scrape the description and create a course if it doesn't exist
-			deparmentCourseCodesAndNames.each do |code, shortName|
-				course = Course.find(:first, :conditions => ["code =?", code])
-				if course.nil?
-					courseData = scrapeCourseDescription(sjsuRootUrl + "/web-dbgen/catalog/courses/" + code + ".html")
-					name = (courseData.fullName or shortName)
-					
-					course = Course.create(:name => name, :code => code, :description => courseData.description, 
-									:prerequisites => courseData.prerequisites, :corequisites => courseData.corequisites,
-									:misc => courseData.misc, :units => courseData.units)
-				end
-				course.department = department
-				course.save!
 			end
 			
-			# now we have Department > Course relationship complete (for this department)
-			# do each course section
-			departmentCourseSectionList.each do |sectionEntry|
-				# OpenStruct.new(:code => "ADV091", :shortName => "Intro Advertising", :courseSectionUrl => "/web-dbgen/soc-fall-courses/c667543.html")
-				courseSectionInfo = scrapeCourseSection(sjsuRootUrl + sectionEntry.courseSectionUrl)
-				
-				# include the url for updating enrollment
-				courseSectionInfo.update_url = sectionEntry.courseSectionUrl
-				
-				courseSection = CourseSection.new(courseSectionInfo.marshal_dump)
-				
-				# find the course info for this section
-				course = Course.find(:first, :conditions => ["code =?", sectionEntry.courseCode])
-				
-				courseSection.course = course
-				courseSection.schedules << schedule
-				courseSection.save!
-				
-				
-			end
-
   end
-	
-	
-	def cutContentPortionFromDoc(doc)
-		text = doc.inner_html
-		md = /<!-- content starts here -->(.*?)<!-- content ends here -->/m.match(text)
+  
+  def createOrFindCourse(code, shortName, department)
+    course = Course.find(:first, :conditions => ["code =?", code])
+		if course.nil?
+		  courseCatalogUrl = File.join(@localHostRoot, "/web-dbgen/catalog/courses/", code + ".html")
+			courseData = scrapeCourseDescription(courseCatalogUrl)
+			name = (courseData.fullName or shortName)
+			
+			course = Course.create(:name => name, :code => code, :description => courseData.description, 
+							:prerequisites => courseData.prerequisites, :corequisites => courseData.corequisites,
+							:misc => courseData.misc, :units => courseData.units, 
+							:general_education => courseData.generalEducation, :grading => courseData.grading,
+							:california_articulation_number => courseData.californiaArticulationNumber)
+		end
 		
-		return Hpricot(md[1])
-	end
-	
-	def scrapeDepartmentList(url)
-		# results << OpenStruct.new(:name => "ADVERTISING", :url => "http://info.sjsu.edu/web-dbgen/soc-fall-courses/d17441.html")
+		course.department = department
+		course.save!
+		
+		return course
+  end
+  
+  def createCourseSection(sectionUrl)
+    # sectionUrl => "/web-dbgen/soc-fall-courses/c667543.html"
+    fullSectionUrl = File.join(@localHostRoot, sectionUrl)
+    
+    courseSectionInfo = scrapeCourseSection(fullSectionUrl)
+    courseSection = CourseSection.new(courseSectionInfo.marshal_dump)
+
+    return courseSection
+  end
+  
+  def scrapeDepartmentList(url)
+	  # results << OpenStruct.new(:href => '/web-dbgen/soc-spring-courses/d22710.html', name => 'ADVERTISING')
+	  doc = cutContentPortionFromDoc(Hpricot(open(url)))
+	  		
+	  # scrape department list
 		results = []
 		
-		return results	
-	end
+		(doc/"table tr").each { |row|
+			a = row.at("td a")
+			results << OpenStruct.new(:href => a["href"], :name => a.inner_text)
+		}
+	  
+	  return results
+  end
 	
 	def scrapeCourseSectionList(url)
 		# results << OpenStruct.new(:courseCode => "ADV091", :departmentCode => "ADV", :shortName => "Intro Advertising", :courseSectionUrl => "/web-dbgen/soc-fall-courses/c667543.html")
@@ -147,32 +167,35 @@ class CatalogScraper
 	
 	def scrapeCourseDescription(url)
 		# result = OpenStruct.new(:fullName => "Introduction To Linguistics", :description => "SCIENTIFIC study of lang...", 
-		# 							:prerequisites => "...", :corequisites => "...", :misc => "...", :units => 3)
-		
+		# 							:prerequisites => "...", :corequisites => "...", :misc => "...", :units => 3,
+		#               :general_education => "...", :grading => "...", :california_articulation_number => "...")
+  
 		result = OpenStruct.new
-		begin
-			doc = cutContentPortionFromDoc(Hpricot(open(url)))
-			result.fullName = doc.at(:h4).inner_text
-			
-			# find description text and units text nodes
-			ps = doc.search(:p)
-			descNode = doc.at("p:nth-child(1)")
-			unitsNode = doc.at("p:nth-child(2)")
+		
+		doc = cutContentPortionFromDoc(Hpricot(open(url)))
+		# Hpricot closes nested paragraphs at the end
+		# we can have a much easier time if we fix each nested paragraph ourselves
+		doc = Hpricot(fixNestedParagraphs(doc.to_html))
 
-			# get text from nodes
-			desc = descNode.inner_text
-			result.units = /Units.*(\d+)/m.match(unitsNode.inner_text)[1].to_i
-			
-			# split up description text			
-			parts = desc.to_s.split("\n").reject { |v| v.nil? or v.empty? }
-        	result.description = parts[1].to_s
-        	result.prerequisites = parts[2].to_s.gsub("Prerequisite:", "").strip
-        	result.corequisites = parts[3].to_s.gsub("Corequisite:", "").strip
-        	result.misc = parts[4..-1].to_a.join("\n")
-        				
-		rescue
-			# do nothing, will return nil
-		end
+		result.fullName = doc.at(:h4).inner_text
+		
+		# find description text and units text nodes
+		ps = doc.search(:p)
+		descNode = doc.at("p:nth-child(1)")
+		unitsNode = doc.at("p:nth-child(2)")
+
+		# get text from nodes
+		desc = descNode.inner_text
+		result.units = /Units.*(\d+)/m.match(unitsNode.inner_text)[1].to_i
+		
+		# split up description text			
+		parts = desc.to_s.split("\n").reject { |v| v.nil? or v.empty? }
+      	result.description = parts[1].to_s
+      	result.prerequisites = parts[2].to_s.gsub("Prerequisite:", "").strip
+      	result.corequisites = parts[3].to_s.gsub("Corequisite:", "").strip
+      	result.misc = parts[4..-1].to_a.join("\n")
+      				
+	
 		
 		return result
 	end
@@ -222,22 +245,73 @@ class CatalogScraper
 		return result
 	end
 	
-	def scrapeDepartmentItems(url)
-	  # results << OpenStruct.new(:href => '/web-dbgen/soc-spring-courses/d22710.html', name => 'ADVERTISING')
-	  doc = cutContentPortionFromDoc(Hpricot(open(url)))
-	  		
-	  # scrape department list
-		results = []
-		
-		(doc/"table tr").each { |row|
-			a = td.at("td a")
-			results << OpenStruct.new(:href => a["href"], :name => a.inner_text)
-		}
+	def fixNestedParagraphs(text)
+	  return text if text.index("<p>").nil?
 	  
-	  return results
+	  processed = ""
+	  inp = false
+	  until text.empty?
+	    if inp
+	      firstp = text.index(/<\s*p/)
+	      firstep = text.index(/<\s*\/\s*p/)
+	      # unclosed p tag. no p tags left
+	      if(firstp.nil? and firstep.nil?)
+	        processed << text
+	        processed << "</p>"
+	        text = ""
+	        inp = false
+	        next
+	      end
+	      # valid closed p tag. no p tags left
+	      if(firstp.nil? and not firstep.nil?)
+	        processed << text
+	        text = ""
+	        inp = false
+	        next
+        end
+        # unclosed p tag
+        # either no closing at all or closing later than next opening
+        if(firstep.nil? or firstep > firstp)
+          # insert text until the p tag and </p> tag
+          processed << text.slice(0...firstp)
+          processed << "</p>"
+          text = text.slice(firstp, text.length)
+          inp = false
+          next
+        end
+        # properly closed tag
+        if(firstep < firstp)
+          # find the end of the ep
+          endep = text.index(">", firstep)
+          # move over the whole ep
+          processed << text.slice(0..endep)
+          text = text.slice(endep + 1, text.length)
+          inp = false
+          next
+        end
+      else
+        # not in p
+        # find p
+        firstp = text.index(/<\s*p/)
+        # no ps at all
+        if(firstp.nil?)
+          processed << text
+          text = ""
+        else
+          # found a p
+          # find its end
+          endp = text.index(">", firstp)
+          processed << text.slice(0..endp)
+          inp = true
+          text = text.slice(endp + 1, text.length) 
+        end
+          
+      
+      # end if inp
+      end
+	  # end until text.empty?
+    end
+    processed << '</p>' if(inp)
+    return processed
   end
-	
-	
-
-	
 end
