@@ -24,12 +24,12 @@ class CatalogScraper
 		
 		# get the list of department
 		depList = scrapeDepartmentList(depListUrl)
-		
+
 		# handle each department
 		depList.each_with_index { |depItem, i|  			
 			puts "(#{i + 1} of #{depList.length}) -- #{depItem.name}"
 
-			createDepartmentAndCourses(depItem.name, depItem.url, schedule)
+			createDepartmentAndCourses(depItem.name, depItem.href, schedule)
 		}
 		
 		puts "Course info fields:"
@@ -54,7 +54,9 @@ class CatalogScraper
 		scheduleName = rootDoc.at(:h3).inner_text
 		
 		schedule = Schedule.create(:name => scheduleName)
-		return schedule.save!
+		schedule.save!
+		
+		return schedule
 	end
 	
 	def createDepartmentAndCourses(depName, depUrl, schedule)
@@ -63,7 +65,7 @@ class CatalogScraper
 			if(department.nil?)
 		    department = Department.create(:name => depName)
 	    end
-	    
+
 			# get the list of sections for this department
 			sectionListUrl = File.join(@localHostRoot, depUrl)
 			courseSectionList = scrapeCourseSectionList(sectionListUrl)
@@ -107,6 +109,7 @@ class CatalogScraper
 			courseData.name = (courseData.fullName or shortName)
 			courseData.code = code
 			
+			courseData.delete_field("fullName")
 			course = Course.create(courseData.marshal_dump)
 		end
 		
@@ -175,6 +178,11 @@ class CatalogScraper
   
 		result = OpenStruct.new
 		
+		# some descriptions don't exist
+		# don't bother if we can't open it
+		return result unless File.exists?(url) and File.size(url) > 0
+		
+		
 		doc = cutContentPortionFromDoc(Hpricot(open(url)))
 		# Hpricot closes nested paragraphs at the end
 		# we can have a much easier time if we fix each nested paragraph ourselves
@@ -218,8 +226,8 @@ class CatalogScraper
 		table.search("tr").each do |row|
 			key = row.at("td:nth(0)").inner_text unless row.at("td:nth(0)").nil?
 			val = row.at("td:nth(2)").inner_text unless row.at("td:nth(2)").nil?
-			
-			key.downcase!.gsub!(" ", "_")
+
+			key = key.downcase.gsub(" ", "_") unless key.nil?
 			data[key.to_sym] = val unless (key.empty? or val.split.join.empty?)
 		end
 		

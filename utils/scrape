@@ -1,20 +1,46 @@
 #!/usr/bin/env ruby
-
+$: << "utils/"
 require 'optparse'
 require 'catalogDownloader.rb'
+
+
+RAILS_ENV = "development"
+require "config/environment"
+
+def drop_db(config)
+  case config['adapter']
+  when 'mysql'
+    ActiveRecord::Base.connection.drop_database config['database']
+  when /^sqlite/
+    puts "deleting: " + File.join(RAILS_ROOT, config['database'])
+    FileUtils.rm_f(File.join(RAILS_ROOT, config['database']))
+  when 'postgresql'
+    `dropdb "#{config['database']}"`
+  end
+end
+
+def setupDb(keepDb)
+  unless keepDb
+    config = ActiveRecord::Base.configurations[RAILS_ENV]
+  	drop_db(config)
+  	load(File.join(RAILS_ROOT, "db/schema.rb"))
+	end
+end
 
 options = {
   :remoteHost => "http://info.sjsu.edu/",
   :remoteLocation => "/web-dbgen/soc-fall-courses/",
-  :localHostRootDir => "./downloads"
+  :localHostRootDir => "./utils/downloads",
+  :keepDatabase => false
 }
 
 parser = OptionParser.new do |op|
-  op.banner = "Usage: (download|scrape|both|update) [-h REMOTE_HOST] [-l REMOTE_LOCATION] [-d LOCAL_HOST_ROOT_DIR]\n"
+  op.banner = "Usage: (download|scrape|both|update) [-k] [-h REMOTE_HOST] [-l REMOTE_LOCATION] [-d LOCAL_HOST_ROOT_DIR]\n"
   
   op.on("-h REMOTE_HOST", "(Default: #{options[:remoteHost]})") { |val| options[:remoteHost] = val}
   op.on("-l REMOTE_LOCATION", "(Default: #{options[:remoteLocation]})") { |val| options[:remoteLocation] = val}
   op.on("-d LOCAL_HOST_ROOT_DIR", "(Default: #{options[:localHostRootDir]})") { |val| options[:localHostRootDir] = val}
+  op.on("-k", "Keep existin't database (default purges db)") {options[:keepDatabase] = true}
 end
 
 action = ARGV.shift
@@ -25,7 +51,8 @@ if ["download", "scrape", "both", "update"].include? action
     downloader = CatalogDownloader.new(options[:remoteHost], options[:remoteLocation], options[:localHostRootDir])
     downloader.download
   end
-  if(action == "download" or action == "both")
+  if(action == "scrape" or action == "both")
+    setupDb(options[:keepDatabase])
     scraper = CatalogScraper.new(options[:localHostRootDir], options[:remoteLocation])
     scraper.scrape
   end
