@@ -10,6 +10,8 @@ class CatalogScraper
     
     @localHostRoot = localHostRoot
     @location = location
+    
+    @courseInfoFields = {}
   end
   
   def scrape
@@ -29,6 +31,10 @@ class CatalogScraper
 
 			createDepartmentAndCourses(depItem.name, depItem.url, schedule)
 		}
+		
+		puts "Course info fields:"
+		@courseInfoFields.each_key { |k| puts "'#{key}'"}
+		puts ""
 		
 		puts "Scraper...Done!"
 			
@@ -98,13 +104,10 @@ class CatalogScraper
 		if course.nil?
 		  courseCatalogUrl = File.join(@localHostRoot, "/web-dbgen/catalog/courses/", code + ".html")
 			courseData = scrapeCourseDescription(courseCatalogUrl)
-			name = (courseData.fullName or shortName)
+			courseData.name = (courseData.fullName or shortName)
+			courseData.code = code
 			
-			course = Course.create(:name => name, :code => code, :description => courseData.description, 
-							:prerequisites => courseData.prerequisites, :corequisites => courseData.corequisites,
-							:misc => courseData.misc, :units => courseData.units, 
-							:general_education => courseData.generalEducation, :grading => courseData.grading,
-							:california_articulation_number => courseData.californiaArticulationNumber)
+			course = Course.create(courseData.marshal_dump)
 		end
 		
 		course.department = department
@@ -180,22 +183,23 @@ class CatalogScraper
 		result.fullName = doc.at(:h4).inner_text
 		
 		# find description text and units text nodes
-		ps = doc.search(:p)
-		descNode = doc.at("p:nth-child(1)")
-		unitsNode = doc.at("p:nth-child(2)")
-
-		# get text from nodes
-		desc = descNode.inner_text
-		result.units = /Units.*(\d+)/m.match(unitsNode.inner_text)[1].to_i
+		titles = (doc/"p b").collect {|b| b.inner_text}
+		ps = doc/"p"
+		values = ps.collect { |p| (p/"b").remove; (p/"br").remove; p.inner_text.strip}
 		
+		options = {}
+	  values.each_with_index do |val, i|
+	    key = titles[i].downcase.gsub(" ", "_")
+	    result.send("#{key}=", val)
+	    @courseInfoFields[key] = true
+    end
+
 		# split up description text			
-		parts = desc.to_s.split("\n").reject { |v| v.nil? or v.empty? }
-      	result.description = parts[1].to_s
-      	result.prerequisites = parts[2].to_s.gsub("Prerequisite:", "").strip
-      	result.corequisites = parts[3].to_s.gsub("Corequisite:", "").strip
-      	result.misc = parts[4..-1].to_a.join("\n")
-      				
-	
+		parts = result.description.to_s.split("\n").reject { |v| v.nil? or v.empty? }
+  	result.description = parts[1].to_s
+  	result.prerequisites = parts[2].to_s.gsub("Prerequisite:", "").strip
+  	result.corequisites = parts[3].to_s.gsub("Corequisite:", "").strip
+  	result.misc = parts[4..-1].to_a.join("\n")
 		
 		return result
 	end
@@ -215,7 +219,8 @@ class CatalogScraper
 			key = row.at("td:nth(0)").inner_text unless row.at("td:nth(0)").nil?
 			val = row.at("td:nth(2)").inner_text unless row.at("td:nth(2)").nil?
 			
-			data[key.downcase.to_sym] = val unless (key.empty? or val.split.join.empty?)
+			key.downcase!.gsub!(" ", "_")
+			data[key.to_sym] = val unless (key.empty? or val.split.join.empty?)
 		end
 		
 		# some data is ready, just dump it into result
@@ -240,7 +245,7 @@ class CatalogScraper
 		end
 		
 		# delete extra stuff from result
-		[:time, :enrollment, :dates, :title, :units, :"ge designator", :code, :schedule].map {|s| result.delete_field(s)}
+		[:time, :enrollment, :dates, :title, :units, :schedule].map {|s| result.delete_field(s)}
 		
 		return result
 	end
@@ -257,7 +262,7 @@ class CatalogScraper
 	      # unclosed p tag. no p tags left
 	      if(firstp.nil? and firstep.nil?)
 	        processed << text
-	        processed << "</p>"
+	        processed << "</p>\n"
 	        text = ""
 	        inp = false
 	        next
@@ -274,7 +279,7 @@ class CatalogScraper
         if(firstep.nil? or firstep > firstp)
           # insert text until the p tag and </p> tag
           processed << text.slice(0...firstp)
-          processed << "</p>"
+          processed << "</p>\n"
           text = text.slice(firstp, text.length)
           inp = false
           next

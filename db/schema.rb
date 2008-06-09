@@ -20,9 +20,11 @@ ActiveRecord::Schema.define(:version => 1) do
     t.integer "end_time"
     t.string  "location"
     t.string  "instructor"
+    t.string  "ge_designator"
     t.string  "footnotes"
     t.string  "type"
     t.string  "section"
+    t.string  "code"
     t.integer "course_id",           :null => false
   end
 
@@ -38,9 +40,10 @@ ActiveRecord::Schema.define(:version => 1) do
     t.string  "prerequisites"
     t.string  "corequisites"
     t.string  "misc"
-    t.integer "units"
+    t.string  "units"
     t.string  "general_education"
     t.string  "grading"
+    t.string  "repeatable"
 		t.string  "california_articulation_number"
     t.integer "department_id", :null => false
   end

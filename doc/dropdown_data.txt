@@ -27,6 +27,7 @@ Department:
 	
 Course:
 	Description
+	Prerequisites
 	Corequisites
 	Misc
 	Units
