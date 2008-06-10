@@ -214,8 +214,6 @@ class CatalogScraper
 	    key = titles[i].downcase.gsub(" ", "_")
 	    #parentheses in methods names are bad
 	    key = "california_articulation_number" if key == "california_articulation_number_(can)"
-	    # each portion in the value should be separated by exactly one \n
-	    val.gsub(/\n+/, "\n")
 	    result.send("#{key}=", val)
 	    @courseInfoFields[key] = true
     end
@@ -264,16 +262,13 @@ class CatalogScraper
 		# some data is ready, just dump it into result
 		result.marshal_load(data)
 		
-		# rename some stuff
-		result.course_section_code = result.code
-		
 		# convert some stuff
 		md = /(\d+)\/(\d+)/.match(result.enrollment)
 		result.enrollment_current = md[1].to_i
 		result.enrollment_max = md[2].to_i
 		
+		# split time
 		md = /(\d+)\s+(\d+)/.match(result.time)
-		
 		# check for unannounced times
 		unless /TBA/ =~ result.time
 			result.start_time = md[1].to_i
@@ -284,9 +279,6 @@ class CatalogScraper
 		
 		# delete extra stuff from result
 		[:time, :enrollment, :dates, :title, :units, :schedule].map {|s| result.delete_field(s)}
-		
-		puts result.inspect
-		puts "\n\n"
 		
 		return result
 	end

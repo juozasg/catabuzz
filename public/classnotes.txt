@@ -1,0 +1,84 @@
+1, Students must register for one section of each activity listed.
+2, Students must register in an entire block of courses. Contact department office.
+3, Lecture may be taken alone, but lab requires enrollment in a lecture section.
+4, Compressed session.
+5, Additional fees or materials required. Contact department office.
+6, Additional fees and/or materials required.
+7, For more information contact International & Extended Studies at 408-924-2670.
+8, A laboratory to assist students in their studies will be available.
+9, See SJSU Catalog for requirements.
+10, See department for advisement, prerequisites, and/or course requirements.
+11, Consult SJSU Catalog for appropriate major requirements.
+12, Contact department for dates, times or place of class meeting.
+13, Students must also register in a lab section.
+14, Meets pre-professional experience requirement for teacher education programs.
+15, See comment section which appears under the department name.
+16, Contact instructor for meeting dates.
+17, Additional hours required.
+18, Does not meet full semester.
+19, Required field trips (may include weekends).
+20, Class meets at off-campus location, students must arrange own transportation.
+21, Course to be taught in Bath, England. Contact Study Abroad Office, Clark Hall.
+22, Course meets in the Board Room, San Jose Day Nursery, 33 N. 8th Street.
+23, Section meets at Cabrillo College (televised).
+24, Section meets at Gavilan College (televised).
+25, Section meets at Monterey County Office of Education - Salinas (televised).
+26, Section meets at James Logan High School - Union City (televised).
+27, Course taught at FMC.
+28, Course taught at Lockheed.
+29, Course taught at business and industry sites (televised).
+30, Course taught at National Semiconductor.
+31, Course taught in County Admin. Bldg., 70 W. Hedding, Lower Conference Room.
+32, Class meets at off-campus location.
+33, Course taught at Amdahl.
+34, Prerequisite - Sophomore, junior or senior standing.
+35, Prerequisite - Upper division standing.
+36, Prerequisite - Graduate student status.
+37, Prerequisite - Senior standing.
+38, Prerequisite - Graduating senior status. Must show proof of application for graduation.
+39, Prerequisite - Satisfaction of Entry Level Math Test (ELM). See Testing Section in SJSU Schedule of Classes.
+40, Prerequisite - Placement test. See Testing Section in SJSU Schedule of Classes.
+41, Prerequisite - Satisfaction of English Placement Test (EPT). See Testing Section in SJSU Schedule of Classes.
+42, Prerequisite - Math Placement Exam. See Testing Section in SJSU Schedule of Classes.
+43, Prerequisite - EPT score of 146 or below. See Testing Section in SJSU Schedule of Classes.
+44, Prerequisite - ELM score 460 or below. See Testing Section in SJSU Schedule of Classes.
+45, Strongly recommended - Passage of ELM. See Testing Section in SJSU Schedule of Classes.
+46, Prerequisite - Engl 001A.
+47, Prerequisite - Engl 001A and 001B.
+48, Prerequisite - Written Communication II (100W) or equivalent.
+49, Prerequisite - Freshman standing, 0-29 units, and ELM score of 350 or less.
+50, Prerequisite - Approval of thesis prospectus.
+51, Prerequisite - Acceptance into the Co-Op Program.
+52, At first class meeting students must furnish proof of completion of prerequisites.
+53, Prerequisite courses required. Consult SJSU Catalog.
+54, Prerequisites, skills or materials are required. Consult the SJSU Catalog or department office.
+55, Prerequisite - California Basic Education Skills Test (CBEST) taken prior to enrollment.
+56, Prerequisite - Eng1 001B.
+57, Prerequisite - Passage of WST, Upper Division standing and completion of CORE GE. Consult SJSU Catalog. If you met requirements at another institution. provide transcript to Student Services Center.
+58, Prerequisite - 100W.
+59, Requires consent of instructor.
+60, Requires Consent of graduate or undergraduate advisor.
+61, Requires department release of permission number.
+62, Requires department approval.
+63, Requires negotiated agreements or contracts. Consult department.
+64, Restricted class level. Consult department before enrolling.
+65, Year long course only for students who have completed first semester of sequence.
+66, Honors course. Requires department approval.
+67, Not open to students majoring in this discipline.
+68, Restricted to certain majors. Others permitted during add/drop on space available basis.
+69, Restricted to certain majors. Contact department office for information.
+70, Open to non majors.
+71, Disabled students only.
+72, International students only.
+73, Not available to Open University students.
+74, Prerequisites must be completed with grades of B or better.
+75, Prerequisites must be completed with grades of C or better.
+76, Requires departmental review. See SJSU Catalog.
+77, Restricted to majors in this department. See SJSU Catalog.
+82, Section is taught with pre-tape videos. See instructor for details. 96 Multiple GE areas are met by completion of this course; See SJSU Catalog.
+97, Course is on campus for all meetings. Supplemental course materials offered on Web require Internet access. Important information about this class can be found at http://online.sjsu.edu three weeks before the first day of classes.
+98, Course is Internet-based through video streaming. Requires computer with Internet access. Contact 408-924-2636 or www.sjsu.edu/atn.
+99, Televised section. Course available via TV at several locations. Enrollment in this course grants SJSU permission to record your image and voice for instructional purposes. Contact 408-924-2636.
+100, Televised section. Course available via TV at several locations. Enrollment in this course grants SJSU permission to record your image and voice for instructional purposes. Contact 408-924-2636. Supplemental course materials offered on Web require Internet access. Important information about this class can be found at http://online.sjsu.edu three weeks before the first day of classes.
+101, Online, Web-based courses which may require meetings on campus. Important information about this class can be found at http://online.sjsu.edu three weeks before the first day of classes.
+102, Mixed Mode - Classroom and Online, Web-based instruction. Has required meetings on campus. Important information about this class can be found at http://online.sjsu.edu three weeks before the first day of classes.
