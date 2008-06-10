@@ -33,7 +33,7 @@ class CatalogScraper
 		}
 		
 		puts "Course info fields:"
-		@courseInfoFields.each_key { |k| puts "'#{key}'"}
+		@courseInfoFields.each_key { |key| puts "'#{key}'"}
 		puts ""
 		
 		puts "Scraper...Done!"
@@ -106,10 +106,10 @@ class CatalogScraper
 		if course.nil?
 		  courseCatalogUrl = File.join(@localHostRoot, "/web-dbgen/catalog/courses/", code + ".html")
 			courseData = scrapeCourseDescription(courseCatalogUrl)
-			courseData.name = (courseData.fullName or shortName)
+			courseData.name = (courseData.full_name or shortName)
 			courseData.code = code
 			
-			courseData.delete_field("fullName")
+			courseData.delete_field("full_name")
 			course = Course.create(courseData.marshal_dump)
 		end
 		
@@ -172,7 +172,7 @@ class CatalogScraper
 	end
 	
 	def scrapeCourseDescription(url)
-		# result = OpenStruct.new(:fullName => "Introduction To Linguistics", :description => "SCIENTIFIC study of lang...", 
+		# result = OpenStruct.new(:full_name => "Introduction To Linguistics", :description => "SCIENTIFIC study of lang...", 
 		# 							:prerequisites => "...", :corequisites => "...", :misc => "...", :units => 3,
 		#               :general_education => "...", :grading => "...", :california_articulation_number => "...")
   
@@ -188,27 +188,57 @@ class CatalogScraper
 		# we can have a much easier time if we fix each nested paragraph ourselves
 		doc = Hpricot(fixNestedParagraphs(doc.to_html))
 
-		result.fullName = doc.at(:h4).inner_text
+		result.full_name = doc.at(:h4).inner_text
 		
 		# find description text and units text nodes
 		titles = (doc/"p b").collect {|b| b.inner_text}
 		ps = doc/"p"
-		values = ps.collect { |p| (p/"b").remove; (p/"br").remove; p.inner_text.strip}
+		ival = 0
+		values = []
+    ps.each do |p|
+      if p.at("b").nil?
+        # this is not a paragraph that has the title
+        # so the data in the p should belong to previous data
+        (p/"br").remove
+        values[ival - 1] << "\n"
+        values[ival - 1] << p.inner_text.strip
+      else
+        (p/"b").remove
+        (p/"br").remove
+        values << p.inner_text.strip
+        ival += 1
+      end
+    end
 		
-		options = {}
 	  values.each_with_index do |val, i|
 	    key = titles[i].downcase.gsub(" ", "_")
+	    #parentheses in methods names are bad
+	    key = "california_articulation_number" if key == "california_articulation_number_(can)"
+	    # each portion in the value should be separated by exactly one \n
+	    val.gsub(/\n+/, "\n")
 	    result.send("#{key}=", val)
 	    @courseInfoFields[key] = true
     end
-
+    
 		# split up description text			
-		parts = result.description.to_s.split("\n").reject { |v| v.nil? or v.empty? }
-  	result.description = parts[1].to_s
-  	result.prerequisites = parts[2].to_s.gsub("Prerequisite:", "").strip
-  	result.corequisites = parts[3].to_s.gsub("Corequisite:", "").strip
-  	result.misc = parts[4..-1].to_a.join("\n")
-		
+		parts = result.description.to_s.split("\n\n").reject { |v| v.nil? or v.empty? }
+  	result.description = parts.shift
+  	result.misc = ""
+  	result.prerequisites = ""
+  	result.corequisites = ""
+  	until parts.empty?
+  	  part = parts.shift
+  	  case part
+	    when /Prerequisite:/
+	      result.prerequisites = part.gsub(/Prerequisite:\s*/, "")
+      when /Corequisite:/
+	      result.corequisites = part.gsub(/Corequisite:\s*/, "")
+  	  else
+  	    result.misc << part
+  	    result.misc << "\n"
+	    end
+	  end
+  	
 		return result
 	end
 	
@@ -254,6 +284,9 @@ class CatalogScraper
 		
 		# delete extra stuff from result
 		[:time, :enrollment, :dates, :title, :units, :schedule].map {|s| result.delete_field(s)}
+		
+		puts result.inspect
+		puts "\n\n"
 		
 		return result
 	end
