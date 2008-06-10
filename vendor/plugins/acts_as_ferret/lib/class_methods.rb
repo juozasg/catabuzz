@@ -2,6 +2,7 @@ module ActsAsFerret
         
   module ClassMethods
 
+    # based on http://opensoul.org/2007/8/17/acts_as_ferret-will_paginate
     def ferret_paginate_search(query, options = {})
       page, per_page, total = wp_parse_options(options)
       pager = WillPaginate::Collection.new(page, per_page, total)

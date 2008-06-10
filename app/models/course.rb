@@ -9,7 +9,6 @@ class Course < ActiveRecord::Base
 	
 	validates_presence_of :department
 	
-	# can have spaces in course_code (ie "BUS3 101A")
 	validates_format_of :code, :with => /^\w+\d+\w*$/
 	validates_uniqueness_of :code
 end
