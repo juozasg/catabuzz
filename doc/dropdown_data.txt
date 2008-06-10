@@ -35,6 +35,10 @@ Course:
 Course Sections:
 	Section code (40033)
 	Footnotes (god knows what)
+	general education
+    grading
+    repeatable
+	california articulation number
 	Type(LEC)
 		LEC  =  lecture 
 		ACT  =  activity 
