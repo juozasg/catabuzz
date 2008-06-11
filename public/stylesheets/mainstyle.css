@@ -4,6 +4,10 @@ body { background-color: #fffeef; color: #333;
 	margin-left: 15px;
 }
 
+body.white { background-color: white; color: #333;
+	margin-left: 15px;
+}
+
 table {
 	border-collapse: collapse;
 }
@@ -246,7 +250,6 @@ tr.dropdown {
 	padding: 2px 0px 1px;
 
 }
-
 
 .dropdown_container .description p {
 	font-size: 2.0ex;

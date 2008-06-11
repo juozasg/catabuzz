@@ -26,4 +26,8 @@ module CourseSectionsHelper
     createCourseTypeNamesTable if(@typeNamesTable)
     return @typeNamesTable[courseTypeCode]
   end
+  
+  def get_dropdown_title(section)
+    "ANTH101 - Introduction to Anthopology"
+  end
 end

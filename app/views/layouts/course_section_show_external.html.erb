@@ -10,11 +10,13 @@
   <%= stylesheet_link_tag 'mainstyle' %>
   <%= javascript_include_tag 'jquery' %>
   <%= javascript_include_tag 'course_finder' %></head>
-<body>
+<body class = "white">
 
 <p style="color: green"><%= flash[:notice] %></p>
 
+<div class = "dropdown_container">
 <%= yield  %>
+</div>
 
 </body>
 </html>

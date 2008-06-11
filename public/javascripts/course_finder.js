@@ -11,7 +11,7 @@ $(document).ready(function()
     tr.append(td);
     container.hide();
     tr.insertAfter($(row));
-    container.load(href);
+    container.load(href + "?ajax");
     container.slideDown('fast');
   }
   
