@@ -224,10 +224,71 @@ p.pages_list
 	display: none;
 }
 
-
 .small_note p
 {
 	margin: 0px;
 	color: #8a8a8a;
 	font-family: "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
 }
+
+tr.dropdown {
+	background-color: white;
+	margin: 0px;
+	padding: 0px;
+}
+
+.dropdown_container h3 {
+	margin: 10px 0px 5px;
+}
+
+.dropdown_container h4 {
+	margin: 0px;
+	padding: 2px 0px 1px;
+
+}
+
+
+.dropdown_container .description p {
+	font-size: 2.0ex;
+	margin-left: 10px;
+}
+
+.dropdown_container .requisites
+{
+	float: left;
+	margin-bottom: 10px;
+	margin-left: 10px;
+}
+
+.dropdown_container .info
+{
+	margin-bottom: 10px;
+	margin-right: 20px;
+	margin-left: 150px;
+	float: left;	
+}
+
+.dropdown_container .requisites p {
+	font-size: 0.9em;
+	padding:  0px;
+	margin: 0px;
+}
+
+.dropdown_container .info p {
+	font-size: 0.9em;
+	padding:  0px;
+	margin: 0px;
+}
+
+.dropdown_container .footnotes {
+	clear: both;
+	margin-left: 10px;
+}
+
+.dropdown_container .footnotes p {
+	clear: both;
+	margin: 0px;
+	font-size: 0.9em;
+	font-style: italic;;
+}
+
