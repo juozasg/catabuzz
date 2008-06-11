@@ -126,6 +126,8 @@ class CatalogScraper
     courseSectionInfo = scrapeCourseSection(fullSectionUrl)
     courseSection = CourseSection.new(courseSectionInfo.marshal_dump)
 
+    pp courseSection
+    
     return courseSection
   end
   
@@ -280,6 +282,9 @@ class CatalogScraper
 		# delete extra stuff from result
 		[:time, :enrollment, :dates, :title, :units, :schedule].map {|s| result.delete_field(s)}
 		
+		puts
+		pp result
+		puts
 		return result
 	end
 	

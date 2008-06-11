@@ -35,12 +35,13 @@ options = {
 }
 
 parser = OptionParser.new do |op|
-  op.banner = "Usage: (download|scrape|both|update) [-k] [-h REMOTE_HOST] [-l REMOTE_LOCATION] [-d LOCAL_HOST_ROOT_DIR]\n"
+  op.banner = "Usage: (download|scrape|both|update) [-D] [-k] [-h REMOTE_HOST] [-l REMOTE_LOCATION] [-d LOCAL_HOST_ROOT_DIR]\n"
   
   op.on("-h REMOTE_HOST", "(Default: #{options[:remoteHost]})") { |val| options[:remoteHost] = val}
   op.on("-l REMOTE_LOCATION", "(Default: #{options[:remoteLocation]})") { |val| options[:remoteLocation] = val}
   op.on("-d LOCAL_HOST_ROOT_DIR", "(Default: #{options[:localHostRootDir]})") { |val| options[:localHostRootDir] = val}
   op.on("-k", "Keep existin't database (default purges db)") {options[:keepDatabase] = true}
+  op.on("-D", "--debug", "Use DEBUG mode") {require 'ruby-debug'}
 end
 
 action = ARGV.shift

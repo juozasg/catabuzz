@@ -9,6 +9,13 @@ RAILS_GEM_VERSION = '2.0.2' unless defined? RAILS_GEM_VERSION
 
 ENV["RAILS_ASSET_ID"] = ""
 
+require 'ruby-debug'
+
+# we use the name type
+class Object
+  undef :type
+end
+
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
 
@@ -62,4 +69,6 @@ end
 
 require 'acts_as_ferret'
 require 'will_paginate'
+
+
 

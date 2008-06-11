@@ -12,7 +12,6 @@
 ActiveRecord::Schema.define(:version => 1) do
 
   create_table "course_sections", :force => true do |t|
-    t.string  "course_section_code"
     t.integer "enrollment_max"
     t.integer "enrollment_current"
     t.string  "days"
