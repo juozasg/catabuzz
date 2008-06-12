@@ -23,7 +23,7 @@ module CourseSectionsHelper
     
   def get_note_text(noteNumber)
     create_notes_table if(@@footnotesTable.nil?)
-    return @@footnotesTable[noteNumer - 1]
+    return @@footnotesTable[noteNumber.to_i - 1]
   end
   
   def get_course_type_name(courseTypeCode)
@@ -68,4 +68,50 @@ module CourseSectionsHelper
     return "" unless has_misc
     @section.course.misc
   end
+  
+  def section_code_text
+    "Section Code: " + @section.code.to_s
+  end
+  
+  def grading_text
+    "Grading Rules: " + @section.course.grading.to_s
+  end
+  
+  def has_repeatable
+    @section.course.repeatable and @section.course.repeatable != ""
+  end
+  
+  def repeatable_text
+    return "" unless has_repeatable
+    "Repeatable: " + @section.course.repeatable.to_s
+  end
+  
+  def has_general_education
+    @section.course.general_education and @section.course.general_education != ""
+  end
+  
+  def general_education_text
+    return "" unless has_general_education
+    "General Education: " + @section.course.general_education
+  end
+  
+  def has_california_articulation_number
+    @section.course.california_articulation_number and @section.course.california_articulation_number != ""
+  end
+  
+  def california_articulation_number_text
+    return "" unless has_california_articulation_number
+    "California Articulation Number: " +  @section.course.california_articulation_number
+  end
+  
+  def has_footnotes
+    @section.footnotes and @section.footnotes != ""
+  end
+  
+  def footnotes_text
+    return "" unless has_footnotes
+    notes = @section.footnotes.split(",").map { |note| "[#{note}] " + get_note_text(note.to_i)}
+    return notes.join(" ")
+  end
+  
 end

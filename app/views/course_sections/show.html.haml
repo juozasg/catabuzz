@@ -18,14 +18,24 @@
   %p=misc_text
   -end
   
-  %p Section code: 40033
+  %p=grading_text
+  %p=section_code_text
   
 .info
-  %p General Education: D1
-  %p Grading: Normal Grade Rules
-  %p Repeatable: Repeatable for credit
-  %p California Articulation Number: CAN ANTH 4
+  -if has_repeatable
+  %p=repeatable_text
+  -end
+  
+  -if has_general_education
+  %p=general_education_text
+  -end
+  
+  -if has_california_articulation_number
+  %p=california_articulation_number_text
+  -end
 
+-if has_footnotes
 %br/
 .footnotes
-  %p Footnotes: Very special information from the catalog
+  %p=footnotes_text
+-end
