@@ -41,7 +41,7 @@ parser = OptionParser.new do |op|
   op.on("-l REMOTE_LOCATION", "(Default: #{options[:remoteLocation]})") { |val| options[:remoteLocation] = val}
   op.on("-d LOCAL_HOST_ROOT_DIR", "(Default: #{options[:localHostRootDir]})") { |val| options[:localHostRootDir] = val}
   op.on("-k", "Keep existin't database (default purges db)") {options[:keepDatabase] = true}
-  op.on("-D", "--debug", "Use DEBUG mode") {require 'ruby-debug'}
+  op.on("-D", "--debug", "Use DEBUG mode") {require 'ruby-debug'; $DEBUG = true}
 end
 
 action = ARGV.shift

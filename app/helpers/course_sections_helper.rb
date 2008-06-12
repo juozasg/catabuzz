@@ -11,8 +11,6 @@ module CourseSectionsHelper
   end
   
   def create_course_type_names_table
-    logger.error "--------"
-    @@courseTypeNamesTable.inspect
     @@courseTypeNamesTable = {
       "LEC" => "Lecture",
   		"ACT" => "Activity",
@@ -21,21 +19,15 @@ module CourseSectionsHelper
   		"SUP" => "Supervision"
     }
     @@courseTypeNamesTable.default = ""
-    puts @@courseTypeNamesTable.inspect
-    puts "---------------"
   end
     
   def get_note_text(noteNumber)
-    puts "++++++++++++++\n"
-    puts @@courseTypeNamesTable.inspect
     create_notes_table if(@@footnotesTable.nil?)
-    logger.error @@courseTypeNamesTable.inspect
-    logger.error "\n++++++++++++++\n"    
     return @@footnotesTable[noteNumer - 1]
   end
   
   def get_course_type_name(courseTypeCode)
-    create_course_type_names_table if(@@courseTypeNamesTable)
+    create_course_type_names_table if(@@courseTypeNamesTable.nil?)
     return @@courseTypeNamesTable[courseTypeCode]
   end
   
@@ -45,9 +37,35 @@ module CourseSectionsHelper
   
   def type_and_units_text
     open("dump.txt", "a+") {|f| f.write "\n"; f.write(@section.inspect); f.write "\n"; f.close}
-    return "ok"
-    type = get_course_type_name(@section.type)
+    type = get_course_type_name(@section.type_code)
     units = @section.course.units or ""
     "#{type} (#{units} units)"
+  end
+  
+  def has_prerequisites
+    @section.course.prerequisites and @section.course.prerequisites != ""
+  end
+  
+  def prerequisites_text
+    return "" unless has_prerequisites
+    "Prerequisites: " + @section.course.prerequisites
+  end
+  
+  def has_corequisites
+    @section.course.corequisites and @section.course.corequisites != ""
+  end
+  
+  def corequisites_text
+    return "" unless has_corequisites
+    "Corequisites: " + @section.course.corequisites
+  end
+  
+  def has_misc
+    @section.course.misc and  @section.course.misc != ""
+  end
+  
+  def misc_text
+    return "" unless has_misc
+    @section.course.misc
   end
 end

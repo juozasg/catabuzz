@@ -1,4 +1,5 @@
 class CourseSectionsController < ApplicationController
+  
   # GET /course_sections/1
   def show
     @section = CourseSection.find(params[:id])

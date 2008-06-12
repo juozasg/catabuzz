@@ -21,7 +21,7 @@ ActiveRecord::Schema.define(:version => 1) do
     t.string  "instructor"
     t.string  "ge_designator"
     t.string  "footnotes"
-    t.string  "type"
+    t.string  "type_code"
     t.string  "section"
     t.string  "code"
     t.integer "course_id",           :null => false

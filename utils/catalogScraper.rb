@@ -126,7 +126,7 @@ class CatalogScraper
     courseSectionInfo = scrapeCourseSection(fullSectionUrl)
     courseSection = CourseSection.new(courseSectionInfo.marshal_dump)
 
-    pp courseSection
+    pp courseSection if $DEBUG
     
     return courseSection
   end
@@ -229,6 +229,8 @@ class CatalogScraper
   	until parts.empty?
   	  part = parts.shift
   	  case part
+  	  when /Pre\/Corequisite:/
+  	    result.prerequisites = result.corequisites = part.gsub(/Pre\/Corequisite:\s*/, "")
 	    when /Prerequisite:/
 	      result.prerequisites = part.gsub(/Prerequisite:\s*/, "")
       when /Corequisite:/
@@ -243,7 +245,7 @@ class CatalogScraper
 	end
 	
 	def scrapeCourseSection(url)
-		# results << OpenStruct.new(:course_section_code => "40033", :footnotes => "73", :section => "01", :type => "LEC", :current_enrollment => 67,
+		# results << OpenStruct.new(:course_section_code => "40033", :footnotes => "73", :section => "01", :type_code => "LEC", :current_enrollment => 67,
 		# 	 							:max_enrollment => 70, :days => "MW", :start_time => 900, :end_time => 1015, :location => "DBH 222",
 		# 								:instructor => "N Digre")
 		result = OpenStruct.new
@@ -258,6 +260,7 @@ class CatalogScraper
 			val = row.at("td:nth(2)").inner_text unless row.at("td:nth(2)").nil?
 
 			key = key.downcase.gsub(" ", "_") unless key.nil?
+			key = "type_code" if key == "type" # type is a reserved name
 			data[key.to_sym] = val unless (key.empty? or val.split.join.empty?)
 		end
 		
@@ -281,10 +284,12 @@ class CatalogScraper
 		
 		# delete extra stuff from result
 		[:time, :enrollment, :dates, :title, :units, :schedule].map {|s| result.delete_field(s)}
-		
-		puts
-		pp result
-		puts
+
+		if $DEBUG
+  		puts
+  		pp result
+  		puts
+		end
 		return result
 	end
 	
