@@ -1,7 +1,9 @@
-loadingText = "";
 
-function updateLoadingText(e)
+function updateLoadingText(h4class)
 {
+  
+  var div = $(h4class);
+  var e = div.find("h4");
   var str = $(e).text();
   var dots = str.slice(str.indexOf("."), str.lastIndexOf(".") + 1);
   var numDots = dots.length;
@@ -28,7 +30,7 @@ function updateLoadingText(e)
 
 $(document).ready(function()
 {
-  
+  var counter = 0;
 
   var createLoadDropdown = function(row, href)
   {
@@ -39,19 +41,19 @@ $(document).ready(function()
     tr.append(td);
     tr.insertAfter($(row));
     
-	  var loadingContainer = $("<div class='loading_container'></div>").appendTo(td);
+    var loadingContainer = $("<div class='loading_container'></div>").appendTo(td);
     var container = $("<div class='dropdown_container'></div>").appendTo(td);
   
     container.hide();
-	  loadingContainer.hide();
+    loadingContainer.hide();
 	    
-    loadingContainer.append("<h4>Loading.</h4>");
+    loadingContainer.append("<h4>Loading.</h4>").addClass("loading_" + counter);
     loadingContainer.fadeIn('fast');
 
     // flash ... in loading container
-    loadingText = $(loadingContainer).find("h4")
-    var interval = setInterval('updateLoadingText(loadingText);', 500);
+    var interval = setInterval('updateLoadingText(".loading_' + counter + '");', 500);
 
+    counter++;
     container.load(href + "?ajax", function()
 	  {
 	    clearInterval(interval);
