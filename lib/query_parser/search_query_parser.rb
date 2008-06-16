@@ -55,8 +55,6 @@ module SearchQueryParser
     
     result = resultNode.value unless resultNode.nil?
     
-    puts "result: " + result
-
     return result
   end
 
