@@ -1,4 +1,4 @@
-require "search_query_parser.rb"
+require "query_parser/search_query_parser.rb"
 
 class CourseFinderController < ApplicationController
   def index

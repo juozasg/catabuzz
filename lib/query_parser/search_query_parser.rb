@@ -82,18 +82,7 @@ module SearchQueryParser
   
   def self.build_query_from_terms(terms, problems)
     query = ""
-    
-    terms = {
-      :time_ranges => [],
-      :start_times => [],
-      :end_times => [],
-      :strings => [],
-      :weekdays => [],
-      :codes => [],
-      :names => [],
-      :department_names => []
-    }
-    
+  
     terms[:time_ranges].each do |range|
       s = range[0].to_i
       e = range[1].to_i
@@ -128,15 +117,15 @@ module SearchQueryParser
     
     # process strings and names
     name_fragmens = (terms[:strings] + terms[:names]).map { |str| "course_name: #{str}"}
-    query += " (" + name_fragmens.join(" OR ") + ")"
+    query += " (" + name_fragmens.join(" OR ") + ")" unless name_fragmens.empty?
     
-    terms[:weekdays].each do |days|
-      query += " days:#{days}"
-    end
+    # OR together weekdays
+    days_fragmens =  terms[:weekdays].map { |str| "days: #{str}"}
+    query += " (" + days_fragmens.join(" OR ") + ")" unless days_fragmens.empty?
     
     # OR together course codes
     code_fragments = terms[:codes].map { |str| "course_code: #{str}"}
-    query += " (" + code_fragments.join(" OR ") + ")"
+    query += " (" + code_fragments.join(" OR ") + ")" unless code_fragments.empty?
     
     #together departments
     terms[:department_names].each do |dep|
@@ -149,7 +138,9 @@ module SearchQueryParser
   def self.build_ferret_query(query)
     
     terms = parse_query_terms(query)
-    ferret_query = build_query_from_terms(terms)
+    puts terms.inspect
+    problems = []
+    ferret_query = build_query_from_terms(terms, problems)
     
     return ferret_query
    
