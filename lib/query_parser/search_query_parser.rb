@@ -24,7 +24,7 @@ module SearchQueryParser
       :department_names => []
     }
     
-    ranges_re = /(\s|^)(\d{3,4}-\d{3,4})(\s|$|;)/
+    ranges_re = /(\s|^)(\d{3,4}\s*-\s*\d{3,4})(\s|$|;)/
     while ranges_re =~ query
       match = $1 + $2 + $3
       md = $~  
@@ -35,21 +35,21 @@ module SearchQueryParser
     
     # left ranges: -2000
     left_ranges = []
-    left_ranges_re = /(\s|^)(\d{3,4}-)(\s|$|[:alpha:]|_|;)/
+    left_ranges_re = /(\s|^)(\d{3,4}\s*-)(\s|$|[:alpha:]|_|;)/
     while left_ranges_re =~ query
       match = $1 + $2 + $3
       md = $~
-      terms[:start_times] << md[2].gsub("-", "")
+      terms[:start_times] << md[2].gsub(/(-|\s)/, "")
       query.gsub!(match, " " + md[3])
     end
     
     # right ranges: 1200-
     right_ranges = []
-    right_ranges_re = /(\s|$|[:alpha:]|_|;)(-\d{3,4})(\s|$)/
+    right_ranges_re = /(\s|$|[:alpha:]|_|;)(-\s*\d{3,4})(\s|$)/
     while right_ranges_re =~ query
       match = $1 + $2 + $3
       md = $~
-      terms[:end_times] << md[2].gsub("-", "")
+      terms[:end_times] << md[2].gsub(/(-|\s)/, "")
       query.gsub!(match, md[1] + " ")
     end
   
@@ -86,8 +86,54 @@ module SearchQueryParser
     return terms
   end
   
-  def self.build_query(terms)
+  def self.build_query(terms, problems)
+    query = ""
     
+    terms = {
+      :time_ranges => [],
+      :start_times => [],
+      :end_times => [],
+      :strings => [],
+      :weekdays => [],
+      :code => [],
+      :names => [],
+      :department_names => []
+    }
+    
+    terms[:time_ranges].each { |range|
+      s = range[0].to_i
+      e = range[1].to_i
+      
+      s = 0 if s < 0
+      s = 2400 if s > 2400
+      
+      e = 0 if e < 0
+      e = 2400 if e > 2400
+      
+      if s < e
+        query += " end_time: <= #{time}"
+      end
+    }
+      
+    terms[:start_times].each { |str| 
+      time = str.to_i
+      time = 0 if time < 0
+      time = 2400 if time > 2400
+      query += " start_time: >= #{time}"
+    }
+    
+    terms[:end_times].each { |str|
+      time = str.to_i
+      time = 0 if time < 0
+      time = 2400 if time > 2400
+      query += " end_time: <= #{time}"
+    }
+    
+    
+    query += ""
+    
+    
+    return query.strip
   end
   
   def self.build_ferret_query(query)

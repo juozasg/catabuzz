@@ -246,7 +246,7 @@ class CatalogScraper
 	
 	def scrapeCourseSection(url)
 		# results << OpenStruct.new(:course_section_code => "40033", :footnotes => "73", :section => "01", :type_code => "LEC", :current_enrollment => 67,
-		# 	 							:max_enrollment => 70, :days => "MW", :start_time => 900, :end_time => 1015, :location => "DBH 222",
+		# 	 							:max_enrollment => 70, :days => "MW", :start_time => "0900", :end_time => "1015", :location => "DBH 222",
 		# 								:instructor => "N Digre")
 		result = OpenStruct.new
 		doc = cutContentPortionFromDoc(Hpricot(open(url)))
@@ -276,8 +276,8 @@ class CatalogScraper
 		md = /(\d+)\s+(\d+)/.match(result.time)
 		# check for unannounced times
 		unless /TBA/ =~ result.time
-			result.start_time = md[1].to_i
-			result.end_time = md[2].to_i
+			result.start_time = sprintf("%04d", md[1].to_i)
+			result.end_time = sprintf("%04d", md[2].to_i)
 		else
 			result.start_time = result.end_time = nil
 		end

@@ -32,7 +32,7 @@ class CourseSection < ActiveRecord::Base
   def department_name
     return self.course.department.name
   end
-	
+  
 	validates_presence_of :course
 	validates_presence_of :schedules
 end
