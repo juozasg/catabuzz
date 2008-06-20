@@ -1,61 +1,127 @@
 require "rubygems"
 require "treetop"
 
-$parser_prepared = false
-
+$recompile_parser = false
+FORCE_RECOMPILE = false
+  
 module SearchQueryParser
+  
+  def self.parse_query_terms(query)
+    query = query.clone
+    
+    query.gsub!("\n", " ")
+    query.gsub("\r", "")
+    
+    # full ranges: 1200-1800
+    terms = {
+      :time_ranges => [],
+      :start_times => [],
+      :end_times => [],
+      :strings => [],
+      :weekdays => [],
+      :code => [],
+      :names => [],
+      :department_names => []
+    }
+    
+    ranges_re = /(\s|^)(\d{3,4}-\d{3,4})(\s|$|;)/
+    while ranges_re =~ query
+      match = $1 + $2 + $3
+      md = $~  
+      range = md[2].split("-")
+      terms[:time_ranges] << range
+      query.gsub!(match, " ")
+    end
+    
+    # left ranges: -2000
+    left_ranges = []
+    left_ranges_re = /(\s|^)(\d{3,4}-)(\s|$|[:alpha:]|_|;)/
+    while left_ranges_re =~ query
+      match = $1 + $2 + $3
+      md = $~
+      terms[:start_times] << md[2].gsub("-", "")
+      query.gsub!(match, " " + md[3])
+    end
+    
+    # right ranges: 1200-
+    right_ranges = []
+    right_ranges_re = /(\s|$|[:alpha:]|_|;)(-\d{3,4})(\s|$)/
+    while right_ranges_re =~ query
+      match = $1 + $2 + $3
+      md = $~
+      terms[:end_times] << md[2].gsub("-", "")
+      query.gsub!(match, md[1] + " ")
+    end
+  
+    # qouted strings: "lalala" 'lala'
+    strings = []
+    strings_re = /(["'])(.*?)(\1)/
+    while strings_re =~ query
+      match = $1 + $2 + $3
+      terms[:strings] << $2
+      query.gsub!(match, " ")
+    end
+    
+    # classify words into: codes, class names, weekdays, department names
 
-  FORCE_RECOMPILE = false
-  SOURCE_PARSER_FILE = "tt_search_query_parser.treetop"
-  COMPILED_PARSER_FILE = "_compiled_tt_search_query_parser.rb"
-
-
-  def self.prepare_parser
-      dir = File.expand_path(File.dirname(__FILE__))
-      dest = File.join(dir, COMPILED_PARSER_FILE)
-
-      load dest unless recompile_parser
-      if File.exist?(dest)
-        load dest
+    words = query.squeeze(" ").strip.split(/\s/)
+    puts words.inspect
+    
+    days_order = "MTWRFS".split("")
+    words.each { |word|
+      case word
+      when /^([MTWRFS]+)$/i
+        days = $1.upcase.split("").uniq
+        terms[:weekdays] << days.sort_by { |d| days_order.index(d) }.join("")
+      when /^TBA$/i
+        terms[:weekdays] << "TBA"
+      when /(\w{2,5}\d{2,5}\w{0,3})/
+        terms[:codes] << $1.upcase
+      when /([A-Z]{2,})/
+        terms[:department_names] << $1
       else
-        except "Can't compile parser"
+        terms[:names] << word
       end
-      
-      $parser_prepared = true
+    }
+    return terms
   end
-
-  def self.recompile_parser
-      dir = File.expand_path(File.dirname(__FILE__))
-
-      source = File.join(dir, SOURCE_PARSER_FILE)
-      dest = File.join(dir, COMPILED_PARSER_FILE)
-      # see if we need recompile (if we have the file and it's more recent than source)
-      if FORCE_RECOMPILE or !File.exist?(dest) or (File.mtime(dest) < File.mtime(source))
-         opts =  "\"#{source}\" -o \"#{dest}\""
-         cmd = /mswin/ =~ RUBY_PLATFORM ? "tt.bat" : "tt"
-         puts "Executing: #{cmd} #{opts}"
-         system("#{cmd} #{opts}")
-         load dest
-         return true
-      end
-      return false
+  
+  def self.build_query(terms)
+    
   end
-
-
-
+  
   def self.build_ferret_query(query)
-   
-    prepare_parser unless $parser_prepared
-    recompile_parser
+    
+    terms = parse_query_terms(query)
+    build_query(terms)
+    puts terms.inspect
 
-    parser = TTSearchQueryParser.new
+
+    # query.scan(/(\s|^)(\d{3,4}-\d{3,4})(\s|$)/) { |ws1, range, ws2| ranges << range}
+    # query.gsub!(/\d{3,4}?-\d{3,4}?/, "")
     
-    resultNode = parser.parse(query.strip)
-    result = ""
+    # puts "left ranges: " + left_ranges.inspect
+    # puts "right ranges: " + right_ranges.inspect
+    # puts "ranges: " + ranges.inspect
+    # puts "strings: " + strings.inspect
+    # puts "weekdays: " + weekdays.inspect
+    # puts "codes: " + codes.inspect
+    # puts "class_names: " + class_names.inspect
+    # puts "department_names: " + department_names.inspect
     
-    result = resultNode.value unless resultNode.nil?
+ 
     
-    return result
+    # puts "query: " + query
+    
+    #parser = TokenizerParser.new
+
+    #resultNode = parser.parse(query.strip)
+    #puts resultNode.inspect
+    result = "(no match)"
+
+    #result = resultNode.value unless resultNode.nil?
+
+    #puts result.inspect
   end
 
 end
