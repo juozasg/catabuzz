@@ -1,9 +1,3 @@
-require "rubygems"
-require "treetop"
-
-$recompile_parser = false
-FORCE_RECOMPILE = false
-  
 module SearchQueryParser
   
   def self.parse_query_terms(query)
