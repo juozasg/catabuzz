@@ -19,7 +19,7 @@ module SearchQueryParser
       :end_times => [],
       :strings => [],
       :weekdays => [],
-      :code => [],
+      :codes => [],
       :names => [],
       :department_names => []
     }
@@ -86,7 +86,7 @@ module SearchQueryParser
     return terms
   end
   
-  def self.build_query(terms, problems)
+  def self.build_query_from_terms(terms, problems)
     query = ""
     
     terms = {
@@ -95,12 +95,12 @@ module SearchQueryParser
       :end_times => [],
       :strings => [],
       :weekdays => [],
-      :code => [],
+      :codes => [],
       :names => [],
       :department_names => []
     }
     
-    terms[:time_ranges].each { |range|
+    terms[:time_ranges].each do |range|
       s = range[0].to_i
       e = range[1].to_i
       
@@ -110,28 +110,44 @@ module SearchQueryParser
       e = 0 if e < 0
       e = 2400 if e > 2400
       
-      if s < e
-        query += " end_time: <= #{time}"
+      if s > e
+        query += sprintf(" start_time: >= %04d", s)
+        query += sprintf(" end_time: <=  %04d", e)
+      else
+        problems << "#{s}-#{e} time range is bad. First number has to be smaller"
       end
-    }
+    end
       
-    terms[:start_times].each { |str| 
+    terms[:start_times].each do |str| 
       time = str.to_i
       time = 0 if time < 0
       time = 2400 if time > 2400
-      query += " start_time: >= #{time}"
-    }
+      query += sprintf(" start_time: >= %04d", time)
+    end
     
-    terms[:end_times].each { |str|
+    terms[:end_times].each do |str|
       time = str.to_i
       time = 0 if time < 0
       time = 2400 if time > 2400
-      query += " end_time: <= #{time}"
-    }
+      query += sprintf(" end_time: <=  %04d", time)
+    end
     
+    # process strings and names
+    name_fragmens = (terms[:strings] + terms[:names]).map { |str| "course_name: #{str}"}
+    query += " (" + name_fragmens.join(" OR ") + ")"
     
-    query += ""
+    terms[:weekdays].each do |days|
+      query += " days:#{days}"
+    end
     
+    # OR together course codes
+    code_fragments = terms[:codes].map { |str| "course_code: #{str}"}
+    query += " (" + code_fragments.join(" OR ") + ")"
+    
+    #together departments
+    terms[:department_names].each do |dep|
+      query += " department_name: *#{str}*"
+    end
     
     return query.strip
   end
@@ -139,35 +155,10 @@ module SearchQueryParser
   def self.build_ferret_query(query)
     
     terms = parse_query_terms(query)
-    build_query(terms)
-    puts terms.inspect
-
-
-    # query.scan(/(\s|^)(\d{3,4}-\d{3,4})(\s|$)/) { |ws1, range, ws2| ranges << range}
-    # query.gsub!(/\d{3,4}?-\d{3,4}?/, "")
+    ferret_query = build_query_from_terms(terms)
     
-    # puts "left ranges: " + left_ranges.inspect
-    # puts "right ranges: " + right_ranges.inspect
-    # puts "ranges: " + ranges.inspect
-    # puts "strings: " + strings.inspect
-    # puts "weekdays: " + weekdays.inspect
-    # puts "codes: " + codes.inspect
-    # puts "class_names: " + class_names.inspect
-    # puts "department_names: " + department_names.inspect
-    
- 
-    
-    # puts "query: " + query
-    
-    #parser = TokenizerParser.new
-
-    #resultNode = parser.parse(query.strip)
-    #puts resultNode.inspect
-    result = "(no match)"
-
-    #result = resultNode.value unless resultNode.nil?
-
-    #puts result.inspect
+    return ferret_query
+   
   end
 
 end

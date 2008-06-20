@@ -6,7 +6,7 @@ class CourseSection < ActiveRecord::Base
     :instructor => {},
     :course_code => {:index => :untokenized},
     :course_name => {},
-    :department_name => {:index => :untokenized},
+    :department_name => {:index => :untokenized, :store => :yes},
     :department_code => {:index => :untokenized}
   }
 
