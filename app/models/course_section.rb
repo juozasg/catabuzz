@@ -10,20 +10,20 @@ class CourseSection < ActiveRecord::Base
     :department_code => {:index => :untokenized}
   }
 
-	belongs_to :course
-	has_and_belongs_to_many :schedules	
-	
-	def course_code
-		return self.course.code
-	end
-	
-	def course_name
-		return self.course.name
-	end
-	
-	def units
-		return self.course.units
-	end
+  belongs_to :course
+  has_and_belongs_to_many :schedules      
+    
+  def course_code
+    return self.course.code
+  end
+
+  def course_name
+    return self.course.name
+  end
+
+  def units
+    return self.course.units
+  end
 
   def department_code
     return self.course.department.code
@@ -33,6 +33,6 @@ class CourseSection < ActiveRecord::Base
     return self.course.department.name
   end
   
-	validates_presence_of :course
-	validates_presence_of :schedules
+  validates_presence_of :course
+  validates_presence_of :schedules
 end
