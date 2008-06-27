@@ -2,6 +2,10 @@ require "query_parser/search_query_parser.rb"
 
 class CourseFinderController < ApplicationController
   def index
+    
+        #TODO: put the original query in the search box ()
+        
+        
   	@results = nil
   	
   	puts params.inspect
