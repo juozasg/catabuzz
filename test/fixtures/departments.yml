@@ -1,7 +1,513 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-
-# one:
-#   column: value
-#
-# two:
-#   column: value
+--- 
+departments_084: 
+  name: MEXICAN AMERICAN STUDIES
+  code: MAS
+  id: "84"
+departments_056: 
+  name: HEBREW
+  code: HEBR
+  id: "56"
+departments_111: 
+  name: SOCIAL SCIENCE EDUCATION
+  code: SSED
+  id: "111"
+departments_028: 
+  name: CIVIL & ENVIRONMENTAL ENGINEERING
+  code: CE
+  id: "28"
+departments_085: 
+  name: MICROBIOLOGY
+  code: MICR
+  id: "85"
+departments_057: 
+  name: HISTORY
+  code: HIST
+  id: "57"
+departments_112: 
+  name: SOCIAL WORK
+  code: SCWK
+  id: "112"
+departments_029: 
+  name: COMMUNICATION STUDIES
+  code: COMM
+  id: "29"
+departments_086: 
+  name: MIDDLE EAST STUDIES
+  code: MDES
+  id: "86"
+departments_058: 
+  name: HOSPITALITY, RECREATION AND TOURISM MANAGMENT
+  code: HRTM
+  id: "58"
+departments_113: 
+  name: SOCIOLOGY
+  code: SOCI
+  id: "113"
+departments_087: 
+  name: MILITARY SCIENCE
+  code: MILS
+  id: "87"
+departments_059: 
+  name: HUMANITIES
+  code: HUM
+  id: "59"
+departments_114: 
+  name: SOFTWARE ENGINEERING
+  code: SE
+  id: "114"
+departments_115: 
+  name: SPANISH
+  code: SPAN
+  id: "115"
+departments_088: 
+  name: MUSE - METROPOLITAN UNIVERSITY SCHOLAR'S EXPERIENCE
+  code: undefined
+  id: "88"
+departments_001: 
+  name: ADVERTISING
+  code: ADV
+  id: "1"
+departments_116: 
+  name: SPECIAL EDUCATION
+  code: EDSE
+  id: "116"
+departments_089: 
+  name: MUSIC
+  code: MUSC
+  id: "89"
+departments_002: 
+  name: AEROSPACE ENGINEERING
+  code: AE
+  id: "2"
+departments_030: 
+  name: COMPUTER ENGINEERING
+  code: CMPE
+  id: "30"
+departments_117: 
+  name: SPEECH EDUCATION
+  code: SPED
+  id: "117"
+departments_003: 
+  name: AEROSPACE STUDIES
+  code: AS
+  id: "3"
+departments_031: 
+  name: COMPUTER SCIENCE
+  code: CS
+  id: "31"
+departments_118: 
+  name: SPEECH PATHOLOGY
+  code: EDSP
+  id: "118"
+departments_004: 
+  name: AFRICAN AMERICAN STUDIES
+  code: AFAM
+  id: "4"
+departments_060: 
+  name: HUMANITIES & THE ARTS
+  code: HA
+  id: "60"
+departments_032: 
+  name: COUNSELOR EDUCATION
+  code: EDCO
+  id: "32"
+departments_119: 
+  name: STATISTICS
+  code: STAT
+  id: "119"
+departments_005: 
+  name: AFRICAN STUDIES
+  code: AFRS
+  id: "5"
+departments_061: 
+  name: INDUSTRIAL & SYSTEMS ENGINEERING
+  code: ISE
+  id: "61"
+departments_033: 
+  name: CREATIVE ARTS
+  code: CA
+  id: "33"
+departments_090: 
+  name: MUSIC EDUCATION
+  code: MUED
+  id: "90"
+departments_062: 
+  name: INDUSTRIAL DESIGN
+  code: DSID
+  id: "62"
+departments_034: 
+  name: DANCE
+  code: DANC
+  id: "34"
+departments_006: 
+  name: AMERICAN STUDIES
+  code: AMS
+  id: "6"
+departments_063: 
+  name: INSTRUCTIONAL TECHNOLOGY
+  code: EDIT
+  id: "63"
+departments_035: 
+  name: DESIGN
+  code: DSGN
+  id: "35"
+departments_007: 
+  name: ANTHROPOLOGY
+  code: ANTH
+  id: "7"
+departments_091: 
+  name: NUCLEAR SCIENCE
+  code: undefined
+  id: "91"
+departments_064: 
+  name: INTERCOLLEGIATE ATHLETICS
+  code: ATH
+  id: "64"
+departments_036: 
+  name: ECONOMICS
+  code: ECON
+  id: "36"
+departments_008: 
+  name: APPLIED SCIENCES & ARTS
+  code: APSC
+  id: "8"
+departments_092: 
+  name: NURSING
+  code: NURS
+  id: "92"
+departments_120: 
+  name: TEACHER EDUCATION
+  code: EDTE
+  id: "120"
+departments_065: 
+  name: INTERIOR DESIGN
+  code: DSIT
+  id: "65"
+departments_037: 
+  name: EDUCATION
+  code: EDUC
+  id: "37"
+departments_009: 
+  name: ART
+  code: ART
+  id: "9"
+departments_093: 
+  name: NUTRITION,  FOOD SCIENCE & PACKAGING
+  code: NUFS
+  id: "93"
+departments_121: 
+  name: TECHNOLOGY
+  code: TECH
+  id: "121"
+departments_066: 
+  name: ITALIAN
+  code: ITAL
+  id: "66"
+departments_038: 
+  name: ELECTRICAL ENGINEERING
+  code: EE
+  id: "38"
+departments_094: 
+  name: OCCUPATIONAL THERAPY
+  code: OCTH
+  id: "94"
+departments_122: 
+  name: TECHNOLOGY EDUCATION
+  code: TEED
+  id: "122"
+departments_067: 
+  name: JAPANESE
+  code: JPN
+  id: "67"
+departments_039: 
+  name: ELEMENTARY EDUCATION
+  code: EDEL
+  id: "39"
+departments_095: 
+  name: PACKAGING
+  code: PKG
+  id: "95"
+departments_123: 
+  name: THEATRE ARTS
+  code: TA
+  id: "123"
+departments_068: 
+  name: JEWISH STUDIES
+  code: JWSS
+  id: "68"
+departments_096: 
+  name: PHILOSOPHY
+  code: PHIL
+  id: "96"
+departments_124: 
+  name: UNIVERSITY STUDIES
+  code: UNVS
+  id: "124"
+departments_097: 
+  name: PHOTOGRAPHY
+  code: PHOT
+  id: "97"
+departments_010: 
+  name: ART EDUCATION
+  code: ARED
+  id: "10"
+departments_069: 
+  name: JOURNALISM
+  code: JOUR
+  id: "69"
+departments_125: 
+  name: URBAN & REGIONAL PLANNING
+  code: URBP
+  id: "125"
+departments_098: 
+  name: PHYSICS
+  code: PHYS
+  id: "98"
+departments_011: 
+  name: ART HISTORY
+  code: ARTH
+  id: "11"
+departments_126: 
+  name: VIETNAMESE
+  code: VIET
+  id: "126"
+departments_040: 
+  name: ENGLISH
+  code: ENGL
+  id: "40"
+departments_099: 
+  name: POLITICAL SCIENCE
+  code: POLS
+  id: "99"
+departments_012: 
+  name: ASIAN AMERICAN STUDIES
+  code: AAS
+  id: "12"
+departments_127: 
+  name: WOMEN'S STUDIES
+  code: WOMS
+  id: "127"
+departments_041: 
+  name: ENGLISH EDUCATION
+  code: ENED
+  id: "41"
+departments_013: 
+  name: ASIAN STUDIES
+  code: ASIA
+  id: "13"
+departments_128: 
+  name: ZOOLOGY
+  code: ZOOL
+  id: "128"
+departments_042: 
+  name: ENTOMOLOGY
+  code: ENT
+  id: "42"
+departments_014: 
+  name: ASTRONOMY
+  code: ASTR
+  id: "14"
+departments_070: 
+  name: JUSTICE STUDIES
+  code: JS
+  id: "70"
+departments_043: 
+  name: ENVIRONMENTAL STUDIES
+  code: ENVS
+  id: "43"
+departments_015: 
+  name: AUDIOLOGY
+  code: EDAU
+  id: "15"
+departments_071: 
+  name: KINESIOLOGY
+  code: KIN
+  id: "71"
+departments_044: 
+  name: FOREIGN LANGUAGE EDUCATION
+  code: FLED
+  id: "44"
+departments_016: 
+  name: AVIATION
+  code: AVIA
+  id: "16"
+departments_072: 
+  name: KINESIOLOGY EDUCATION
+  code: KNED
+  id: "72"
+departments_045: 
+  name: FRENCH
+  code: FREN
+  id: "45"
+departments_100: 
+  name: PORTUGUESE
+  code: PORT
+  id: "100"
+departments_017: 
+  name: BIOLOGY
+  code: BIOL
+  id: "17"
+departments_073: 
+  name: LATIN
+  code: LATN
+  id: "73"
+departments_046: 
+  name: GENERAL ENGINEERING
+  code: ENGR
+  id: "46"
+departments_101: 
+  name: PSYCHOLOGY
+  code: PSYC
+  id: "101"
+departments_018: 
+  name: BOTANY
+  code: BOT
+  id: "18"
+departments_074: 
+  name: LIBRARY SCIENCE
+  code: LIBR
+  id: "74"
+departments_047: 
+  name: GEOGRAPHY
+  code: GEOG
+  id: "47"
+departments_102: 
+  name: PUBLIC ADMINISTRATION
+  code: PADM
+  id: "102"
+departments_019: 
+  name: BUSINESS GRADUATE PROGRAMS
+  code: BUS
+  id: "19"
+departments_075: 
+  name: LINGUISTICS
+  code: LING
+  id: "75"
+departments_103: 
+  name: PUBLIC RELATIONS
+  code: PR
+  id: "103"
+departments_076: 
+  name: LINGUISTICS & LANGUAGE DEVELOPMENT
+  code: LLD
+  id: "76"
+departments_048: 
+  name: GEOLOGY
+  code: GEOL
+  id: "48"
+departments_104: 
+  name: PUNJABI
+  code: PUNJ
+  id: "104"
+departments_077: 
+  name: MARINE SCIENCE
+  code: MS
+  id: "77"
+departments_049: 
+  name: GERMAN
+  code: GERM
+  id: "49"
+departments_078: 
+  name: MASS COMMUNICATION
+  code: MCOM
+  id: "78"
+departments_105: 
+  name: RADIO - TELEVISION - FILM
+  code: RTVF
+  id: "105"
+departments_020: 
+  name: "BUSINESS:  ACCOUNTING & FINANCE"
+  code: BUS1
+  id: "20"
+departments_079: 
+  name: MATERIALS ENGINEERING
+  code: MATE
+  id: "79"
+departments_106: 
+  name: RELIGIOUS STUDIES
+  code: RELS
+  id: "106"
+departments_021: 
+  name: "BUSINESS:  MANAGEMENT INFORMATION SYSTEMS"
+  code: BUS4
+  id: "21"
+departments_107: 
+  name: SCIENCE
+  code: SCI
+  id: "107"
+departments_022: 
+  name: "BUSINESS:  MARKETING"
+  code: BUS2
+  id: "22"
+departments_108: 
+  name: SCIENCE EDUCATION
+  code: SCED
+  id: "108"
+departments_050: 
+  name: GERONTOLOGY
+  code: GERO
+  id: "50"
+departments_023: 
+  name: "BUSINESS:  ORGANIZATION & MANAGEMENT"
+  code: BUS3
+  id: "23"
+departments_109: 
+  name: SECONDARY EDUCATION
+  code: EDSC
+  id: "109"
+departments_051: 
+  name: GLOBAL STUDIES
+  code: GLST
+  id: "51"
+departments_024: 
+  name: CHEMICAL ENGINEERING
+  code: CHE
+  id: "24"
+departments_080: 
+  name: MATH EDUCATION
+  code: MTED
+  id: "80"
+departments_052: 
+  name: GRAPHIC DESIGN
+  code: DSGD
+  id: "52"
+departments_025: 
+  name: CHEMISTRY
+  code: CHEM
+  id: "25"
+departments_081: 
+  name: MATHEMATICS
+  code: MATH
+  id: "81"
+departments_053: 
+  name: GREEK
+  code: GRK
+  id: "53"
+departments_026: 
+  name: CHILD & ADOLESCENT DEVELOPMENT
+  code: CHAD
+  id: "26"
+departments_082: 
+  name: MECHANICAL ENGINEERING
+  code: ME
+  id: "82"
+departments_054: 
+  name: HEALTH PROFESSIONS
+  code: HPRF
+  id: "54"
+departments_083: 
+  name: METEOROLOGY
+  code: METR
+  id: "83"
+departments_055: 
+  name: HEALTH SCIENCE
+  code: HS
+  id: "55"
+departments_110: 
+  name: SOCIAL SCIENCE
+  code: SOCS
+  id: "110"
+departments_027: 
+  name: CHINESE
+  code: CHIN
+  id: "27"
