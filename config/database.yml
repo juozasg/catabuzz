@@ -19,3 +19,13 @@ production:
   username: catabuzz_user
   password: 2832sos
   database: catabuzz_db
+
+# production:
+#   adapter: sqlite3
+#   database: db/cat_production.sqlite3
+#   timeout: 5000
+ 
+benchmarking:
+  adapter: sqlite3
+  timeout: 5000
+  database: db/cat_development.sqlite3
