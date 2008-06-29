@@ -129,7 +129,7 @@ module SearchQueryParser
     
     #together departments
     terms[:department_names].each do |dep|
-      query += " department_name: *#{str}*"
+      query += " department_name: *#{dep}*"
     end
     
     return query.strip
