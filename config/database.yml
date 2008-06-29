@@ -18,7 +18,8 @@ production:
   host: localhost
   username: catabuzz_user
   password: 2832sos
-  database: catabuzz_db
+  database: catabuzz_db 
+  socket: /var/run/mysqld/mysqld.sock
 
 # production:
 #   adapter: sqlite3
