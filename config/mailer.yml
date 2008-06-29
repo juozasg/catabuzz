@@ -1,6 +1,0 @@
----
-  :address: smtp.gmail.com
-  :port: 587
-  :user_name: admin@23we.com
-  :password: 
-  :authentication: :plain

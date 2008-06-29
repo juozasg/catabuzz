@@ -5,7 +5,7 @@ class CourseFinderController < ApplicationController
     #TODO: put the original query in the search box ()    
     @results = nil
 
-    puts params.inspect
+    # puts params.inspect
     query = params["q"]
     
     unless query.nil? or query.empty?
@@ -17,7 +17,7 @@ class CourseFinderController < ApplicationController
   def get_results(query, page)
     ferret_query = SearchQueryParser::build_ferret_query(query)
     
-    puts "ferret_query = " + "[" + ferret_query + "]"
+    # puts "ferret_query = " + "[" + ferret_query + "]"
 
     sections = CourseSection.ferret_paginate_search(ferret_query, :page => page, :per_page => 20)
 

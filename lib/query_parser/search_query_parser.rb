@@ -59,7 +59,7 @@ module SearchQueryParser
     # classify words into: codes, class names, weekdays, department names
 
     words = query.squeeze(" ").strip.split(/\s/)
-    puts words.inspect
+    # puts words.inspect
     
     days_order = "MTWRFS".split("")
     words.each { |word|
@@ -138,7 +138,7 @@ module SearchQueryParser
   def self.build_ferret_query(query)
     
     terms = parse_query_terms(query)
-    puts terms.inspect
+    # puts terms.inspect
     problems = []
     ferret_query = build_query_from_terms(terms, problems)
     
