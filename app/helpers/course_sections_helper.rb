@@ -6,8 +6,9 @@ module CourseSectionsHelper
   @@courseTypeNamesTable = nil
   
   def create_notes_table
-    @@footnotesTable = []
-    CSV.open("public/classnotes.csv", "r").each { |row| @@footnotesTable << row[1]}
+    # use a hash because certain footnote numbers are not available
+    @@footnotesTable = Hash.new("")
+    CSV.open("public/classnotes.csv", "r").each { |row| @@footnotesTable[row[0]] = row[1]}
   end
   
   def create_course_type_names_table
@@ -21,9 +22,9 @@ module CourseSectionsHelper
     @@courseTypeNamesTable.default = ""
   end
     
-  def get_note_text(noteNumber)
+  def get_note_text(noteId)
     create_notes_table if(@@footnotesTable.nil?)
-    return @@footnotesTable[noteNumber.to_i - 1]
+    return @@footnotesTable[noteId]
   end
   
   def get_course_type_name(courseTypeCode)
@@ -110,7 +111,7 @@ module CourseSectionsHelper
   
   def footnotes_text
     return "" unless has_footnotes
-    notes = @section.footnotes.split(",").map { |note| "[#{note}] " + get_note_text(note.to_i)}
+    notes = @section.footnotes.split(",").map { |note| "[#{note}] " + get_note_text(note)}
     return notes.join(" ")
   end
   
