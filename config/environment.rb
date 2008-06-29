@@ -65,5 +65,7 @@ end
 require 'acts_as_ferret'
 require 'will_paginate'
 
-
+ExceptionNotifier.exception_recipients = %w(logs@23we.com)
+ExceptionNotifier.sender_address = %("Catabuzz Error" catabuzz.error@23we.com)
+ExceptionNotifier.email_prefix = "[catabuzz][ERROR] "
 
