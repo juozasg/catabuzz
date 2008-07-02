@@ -1,6 +1,11 @@
 role :main, "juozas@23we.com"
 set :app, "catabuzz"
 set :source, "~/Sites/#{app}_app/source"
+set :releases, "~/Sites/#{app}_app/releases"
+set :deploy_configs, "~/Sites/#{app}_app/deploy_configs"
+
+# skip the question of which tag to deploy. just use the latest instead
+set :use_latest, false
 
 def parse_branch_list(data)
   # find something that looks like this:
@@ -14,7 +19,9 @@ def parse_branch_list(data)
   return nil
 end
 
-def choose_tag_from_menu
+def choose_tag_to_release
+  return available_tags[:latest] if use_latest
+  
   puts "1. " + available_tags[:latest]
   puts "----------"
   available_tags[:all].each_with_index { |tag, i| puts "#{i + 2}. #{tag}"}
@@ -24,8 +31,8 @@ def choose_tag_from_menu
     question.below = available_tags[:all].size + 2
   end
   
-  return available_tags[:latest] if answ == 1
-  
+  return available_tags[:latest] if answer == 1
+  return available_tags[:all][answer - 2]
 end
 
 task :get_checkedout_branch do
@@ -43,10 +50,9 @@ task :pull_source do
   checkout_deployment_branch if checkedout_branch != "deployment"
   
   run("cd #{source} && git pull")
-  puts hs.inspect
 end
 
-desc "Returns the latest and all release tags"
+# Returns the latest and all release tags
 task :get_available_tags do
   # find latests tag
   latest = ""
@@ -62,13 +68,35 @@ task :get_available_tags do
   set :available_tags, {:latest => latest, :all => all}
 end
 
-task :select_tag do
-  # temporary get tags
+set(:selected_tag) do
+  pull_source
   get_available_tags
-  
-  set :selected_tag, choose_tag_from_menu
-  
-  puts selected_tag.inspect
+  choose_tag_to_release
+end
+
+desc "Select a tag and create a folder containing the tagged release"
+task :download_release do
+  tag = selected_tag
+  run "cd #{releases} && rm -rf #{tag} && mkdir -p #{tag}"
+  run "cd #{source} && git archive #{tag} | (cd #{releases}/#{tag} && tar -xf -)"
+end
+
+desc "Copy mailer and db confings. Add REVISION and VERSION files"
+task :config_release do
+  tag = selected_tag
+  run "cp -f #{deploy_configs}/*.yml #{releases}/#{tag}/config"
+  run "echo #{tag} > #{releases}/#{tag}/REVISION"
+
+  version = tag
+  if md= /\d+(\.\d+)*\w*$/.match(tag)
+    version = md[0].inspect
+  end
+  run "echo #{version} > #{releases}/#{tag}/VERSION"
+end
+
+
+task :link_release do
+  tag = selected_tag
 end
     
 
