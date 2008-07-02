@@ -235,6 +235,12 @@ p.pages_list
 	font-family: "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
 }
 
+.footer_items
+{
+  list-style: none;
+  text-align: center;
+}
+
 tr.dropdown {
 	background-color: white;
 	margin: 0px;
