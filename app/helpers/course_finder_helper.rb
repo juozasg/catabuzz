@@ -1,4 +1,5 @@
 module CourseFinderHelper
+  @@version = nil
   
   def format_lecture_time(time)
     return "TBA" unless time.respond_to? :divmod
@@ -24,4 +25,15 @@ module CourseFinderHelper
       end
   end
   
+  def get_version
+    if @@version.nil?
+      path = File.join(RAILS_ROOT, "VERSION")
+      if File.exists?(path)
+        @@version = File.read(path)
+      else
+        @@version = "(no version given)"
+      end
+    end
+    @@version    
+  end
 end
