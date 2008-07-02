@@ -1,9 +1,17 @@
 -form_tag('', :action => :create, :method => :post, :class => "feedback") do
-%span.input_label Email: 
-= text_field_tag 'email', '', :style => "width: 25em;", :class => "text"
-%span.input_label (optional)
-%br/
-= text_area_tag 'comments', '', :style => "width: 28.5em;", :rows => 20, :class => "text"
-%br/
+%table.form_layout
+  %tbody
+    %tr
+      %td
+        %span.input_label Email:
+      %td
+        = text_field_tag 'email', '', :class => "text"
+      %td
+        %span.input_label (optional)
+    %tr
+      %td
+      %td
+        = text_area_tag 'comments', '', :rows => 20, :class => "text"
+      %td
 = submit_tag 'Send Feedback', :name => nil, :class => "button"
 -end
