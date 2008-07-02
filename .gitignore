@@ -1,0 +1,9 @@
+config/mailer.yml
+REVISION
+VERSION
+log/activerecord.log log/benchmarking.log log/development.log log/ferret_index.log log/production.log
+log/development.log
+log/production.log
+log/activerecord.log
+log/benchmarking.log
+log/ferret_index.log
