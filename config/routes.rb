@@ -36,6 +36,7 @@ ActionController::Routing::Routes.draw do |map|
   # Install the default routes as the lowest priority.
   map.connect 'course_sections/:id', :controller => 'course_sections',  :action => 'show'
   map.connect '', :controller => 'course_finder'
+  map.connect 'feedback', :controller => 'feedback'
 
   #map.connect ':controller/:action/:id.:format'
 end
