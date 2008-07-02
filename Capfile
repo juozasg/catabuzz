@@ -1,5 +1,6 @@
 role :main, "juozas@23we.com"
 set :app, "catabuzz"
+set :app_dir, "~/Sites/#{app}_app"
 set :source, "~/Sites/#{app}_app/source"
 set :releases, "~/Sites/#{app}_app/releases"
 set :deploy_configs, "~/Sites/#{app}_app/deploy_configs"
@@ -94,10 +95,26 @@ task :config_release do
   run "echo #{version} > #{releases}/#{tag}/VERSION"
 end
 
-
+desc "Updated Rails passenger symlinks to point to the new release"
 task :link_release do
   tag = selected_tag
+  run "cd #{app_dir} && ln -vnsf releases/#{tag}/public catabuzz_public"
+  run "cd #{app_dir} && ln -vnsf releases/#{tag} current_release"  
+  run "cd #{releases} && ln -vnsf #{tag} current"
 end
-    
+
+desc "Restart the release"
+task :restart_release do
+  tag = selected_tag
+  run "cd #{releases}/#{tag} && mkdir -p tmp && touch tmp/restart.txt"
+end
+
+desc "Do full deployment of the selected tag from git 'deployment' branch. Use use_latest=1 to skip the tag selection dialog."
+task :deploy_release
+  download_release
+  config_release
+  link_release
+  restart_release
+end
 
 
