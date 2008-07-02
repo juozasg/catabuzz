@@ -37,7 +37,6 @@ module CourseSectionsHelper
   end
   
   def type_and_units_text
-    open("dump.txt", "a+") {|f| f.write "\n"; f.write(@section.inspect); f.write "\n"; f.close}
     type = get_course_type_name(@section.type_code)
     units = @section.course.units or ""
     "#{type} (#{units} units)"
