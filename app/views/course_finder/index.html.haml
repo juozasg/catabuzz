@@ -1,7 +1,13 @@
 %h3 Find courses:
 
+-if(session[:last_finder_query].nil?)
+-last_query_text = ""
+-else
+-last_query_text = session[:last_finder_query]
+-end
+
 -form_tag('', :method => :get, :class => "search") do
-= text_field_tag 'q', '', :size => 30, :class => "text"
+= text_field_tag 'q', last_query_text, :size => 30, :class => "text"
 = submit_tag 'Search', :name => nil, :class => "button"
 -end
 .small_note 

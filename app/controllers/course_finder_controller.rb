@@ -8,6 +8,8 @@ class CourseFinderController < ApplicationController
     # puts params.inspect
     query = params["q"]
     
+    session[:last_finder_query] = query
+    
     unless query.nil? or query.empty?
       @results = get_results(query, params[:page])
   	end
