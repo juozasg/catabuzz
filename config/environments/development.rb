@@ -19,5 +19,5 @@ config.action_mailer.raise_delivery_errors = false
 # ActiveRecord::Base.logger = Logger.new(File.open("log/activerecord.log", "w+"))
 # ActiveRecord::Base.colorize_logging = false
 
-ActiveRecord::Base.logger = Logger.new(STDOUT)
-ActiveRecord::Base.colorize_logging = true
+# ActiveRecord::Base.logger = Logger.new(STDOUT)
+# ActiveRecord::Base.colorize_logging = true
