@@ -1,17 +1,28 @@
+.instructions
+  %h4 Send comments and feedback for the author.
+  %p.subheading Catabuzz is a web application for students. It helps with finding and scheduling courses offered by SJSU. It's a constant work in progress and new features are being added continously.
+  %p If catabuzz doesn't do something you would like it to do or if you feel it does it wrong, please describe it.
+  %p If catabuzz has crashed, failed to find something that exists or is acting somehow wrong or buggy, please describe in detail the steps you took before you ran into the problem. 
+
 -form_tag('', :action => :create, :method => :post, :class => "feedback") do
 %table.form_layout
   %tbody
     %tr
       %td
-        %span.input_label Email:
+        .input_label Email:
       %td
-        = text_field_tag 'email', '', :class => "text"
+        = text_field_tag 'email', '', :key => "value", :size => 55, :class => "text"
       %td
-        %span.input_label (optional)
+        .input_label#note (optional)
+    %tr
+      %td
+        .input_label Comments:
+      %td
+        = text_area_tag 'comments', '', :rows => 20, :cols => 53, :class => "text"
+      %td
     %tr
       %td
       %td
-        = text_area_tag 'comments', '', :rows => 20, :class => "text"
+        = submit_tag 'Send Feedback', :name => nil, :class => "button", :id => "send_feedback"
       %td
-= submit_tag 'Send Feedback', :name => nil, :class => "button"
 -end

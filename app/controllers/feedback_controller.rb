@@ -1,6 +1,6 @@
 class FeedbackController < ApplicationController
   def index
-    # render :text => "please enter your feedback"
+    render :layout => "feedback_external"
   end
   
   def create

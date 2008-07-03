@@ -103,10 +103,14 @@ form.search {
 	margin-bottom: 8px;
 }
 
-input.text {
+input.text, textarea.text {
   	border: 1px solid #000;
 	padding-top: 2px;
 	padding-bottom: 3px;
+	
+	font-family: verdana, arial, helvetica, sans-serif;
+  	font-size:   13px;
+  	line-height: 18px;
 }
 
 input.button {
@@ -311,4 +315,68 @@ tr.dropdown {
 	font-size: 0.9em;
 	font-style: italic;;
 }
+
+table.form_layout {
+	border-style: solid;
+	border-color: black;
+	border-width: 0px;
+}
+
+/*
+input.button#send_feedback {
+	margin-left: 20px;
+}
+*/
+
+.input_label
+{
+	margin-top: 6px;
+	font-weight: bold;
+}
+
+.input_label#note {
+	font-style: italic;
+	font-weight: normal;
+}
+
+table.form_layout td {
+	border-style: solid;
+	border-color: black;
+	border-width: 0px;
+	padding-top: 10px;
+	padding-right: 15px;
+	vertical-align: top;
+}
+
+table.form_layout input.text {
+	border-style: solid;
+	border-color: black;
+	border-width: 1px;
+	size: 200;
+}
+
+.instructions h4 {
+	margin-bottom: 6px;
+	
+}
+
+.instructions p {
+	margin-top: 0px;
+	margin-bottom: 3px;
+	margin-left: 15px;
+}
+
+.instructions p.subheading {
+	margin-top: 0px;
+	margin-bottom: 10px;
+	margin-left: 0px;
+}
+
+.instructions {
+	margin-bottom: 10px;
+}
+
+
+
+
 
