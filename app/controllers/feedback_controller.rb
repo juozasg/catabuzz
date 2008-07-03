@@ -1,10 +1,13 @@
 class FeedbackController < ApplicationController
+  
+  # GET /feedback
   def index
-    render :layout => "feedback_external"
+   render :layout => "feedback_external"
   end
   
+  # POST /feedback
   def create
-    render :text => "form submitted"
+    render :layout => "feedback_external"
   end
   
 end
