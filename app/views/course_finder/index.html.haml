@@ -69,13 +69,12 @@
     -even_row = !even_row
     -end
 
+-end
 
 %p.pages_list
   .pagination
-    = will_paginate @results, :container => false, :prev_label => "&lt", :next_label => "&gt"
+    = will_paginate @results, :container => false, :prev_label => "&lt", :next_label => "&gt" unless @results.nil? or @results.size < 1
     %span.result_count=total_results_text
-    
--end
 
 %br/
 %br/
