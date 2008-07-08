@@ -232,10 +232,10 @@ p.pages_list {
   display: none;
 }
 
-.pagination span.result_count {
+.pagination div.result_count {
   font-weight: bold;
   font-size: 13px;
-  margin-left: 10px;
+  margin-top: 10px;
 }
 
 .small_note p {
