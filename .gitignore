@@ -7,3 +7,4 @@ log/production.log
 log/activerecord.log
 log/benchmarking.log
 log/ferret_index.log
+log/mongrel_debug
