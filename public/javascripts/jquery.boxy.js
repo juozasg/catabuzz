@@ -275,7 +275,17 @@ Boxy.prototype = {
         } else {
             var s = this.estimateSize();
         }
-        this.moveTo(x - s[0] / 2, y - s[1] / 2);
+        var mx = x - s[0] / 2;
+        var my = y - s[1] / 2;
+        if(mx < 0)
+        {
+          mx = 0;
+        }
+        if(my < 0)
+        {
+          my = 0;
+        }
+        this.moveTo(mx, my);
         return this;
     },
     

@@ -4,7 +4,7 @@
   %p If catabuzz doesn't do something you would like it to do or if you feel it does it wrong, please describe it.
   %p If catabuzz has crashed, failed to find something that exists or is acting somehow wrong or buggy, please describe in detail the steps you took before you ran into the problem. 
 
--form_tag('', :action => :create, :method => :post, :class => "feedback") do
+-form_tag('/feedback', :method => :post, :class => "feedback") do
 %table.form_layout
   %tbody
     %tr
