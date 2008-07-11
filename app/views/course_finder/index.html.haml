@@ -83,9 +83,5 @@
   %ul.footer_items
     %li="catabuzz version: #{get_version}"
     %li="|"
-    %li=link_to("Comments/Feedback (we love it)", {:controller => "feedback", :action => "index" })
-
-
-
-
+    %li=link_to("Comments/Feedback (we love it)", {:controller => "feedback", :action => "index" }, {:title => "Catabuzz Feedback", :id => "feedback",  :rel => "boxy", })
 

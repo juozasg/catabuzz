@@ -368,7 +368,9 @@ table.form_layout input.text {
   margin-bottom: 10px;
 }
 
-
+.feedback_box {
+  width: 700px;
+}
 
 
 

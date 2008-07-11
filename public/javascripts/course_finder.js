@@ -1,27 +1,6 @@
 $(document).ready(function()
 {
-    /*
-  $("a#feedback").click(function (e) {
-    e.preventDefault();
-//    $.modal();
-    var href = $("a#feedback").attr("href");
-    $.get(href + "?ajax", function(data) {
-      $.modal(data, {containerCss: {position: 'absolute'}});
-    });
-  
-    var container = $("<div>aaa</div>").modal({onOpen: function (dialog) {
-        alert(dialog);
-      
-        
-      }
-    });
-    
-    //$.modal($("<div class='inc: feedback'>lala " + Math.random() * 1000 +"</div>"));
-    //container.load(href)
-    //return true;
-  });
-  */
-
+  $("a[rel=boxy]").boxy({modal: false, fixed: false});
   $(".section_search_results").click(
     function(event)
     {

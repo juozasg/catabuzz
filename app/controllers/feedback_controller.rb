@@ -3,7 +3,7 @@ class FeedbackController < ApplicationController
   # GET /feedback
   def index
     layout = "feedback_external"
-    layout = false if params.include? :ajax
+    layout = "feedback_ajax" if params.include? :ajax
     render :layout => layout
   end
   

@@ -37,7 +37,7 @@ jQuery.fn.boxy = function(options) {
                             url: anchor.href,
                             method: options.method || 'GET',
                             dataType: 'html',
-                            data: {__math__: Math.random()},
+                            data: {__math__: Math.random(), ajax: ""},
                             success: function(data) {
                                 data = jQuery(data);
                                 if (options.cache) {
