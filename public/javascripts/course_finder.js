@@ -1,6 +1,6 @@
 $(document).ready(function()
 {
-  $("a[rel=boxy]").boxy({modal: false, fixed: false});
+  $("a[rel=boxy]").boxy({modal: true, fixed: false});
   $(".section_search_results").click(
     function(event)
     {
