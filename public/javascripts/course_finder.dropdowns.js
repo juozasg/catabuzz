@@ -1,8 +1,8 @@
-function updateLoadingText(h4class)
+function updateLoadingText(e)
 {
   
-  var div = $(h4class);
-  var e = div.find("h4");
+  //var div = $(h4class);
+  //var e = div.find("h4");
   var str = $(e).text();
   var dots = str.slice(str.indexOf("."), str.lastIndexOf(".") + 1);
   var numDots = dots.length;
@@ -27,7 +27,6 @@ function updateLoadingText(h4class)
   $(e).text(str);
 }
 
-var counter = 0;
 
 var createLoadDropdown = function(row, href)
 {
@@ -43,17 +42,21 @@ var createLoadDropdown = function(row, href)
 
   container.hide();
   loadingContainer.hide();
-    
-  loadingContainer.append("<h4>Loading.</h4>").addClass("loading_" + counter);
+  
+  var loadingText = $("<h4>Loading.</h4>");
+  loadingContainer.append(loadingText);
   loadingContainer.fadeIn('fast');
 
+  var timer = $.timer(500, function(timer) {updateLoadingText(loadingText);
+    });
+    
+  //var t2 = timer;
   // flash ... in loading container
-  var interval = setInterval('updateLoadingText(".loading_' + counter + '");', 500);
+  //var interval = setInterval('updateLoadingText(".loading_' + counter + '");', 500);
 
-  counter++;
   container.load(href + "?ajax", function()
   {
-    clearInterval(interval);
+    timer.stop();
     loadingContainer.hide();
     loadingContainer.remove();
     container.slideDown('fast');
@@ -85,4 +88,3 @@ var removeDropdown = function(e)
   $(e).removeClass("dropdown_disabled").addClass("dropdown_closed");
 }
 
-	
