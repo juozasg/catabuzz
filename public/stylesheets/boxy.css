@@ -24,21 +24,25 @@
 * html .boxy-wrapper .bottom-left { background: none; filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src = '/images/boxy-sw.png'); }
 
 .boxy-wrapper .top,
-.boxy-wrapper .bottom { height: 10px; background-color: black; opacity: 0.6; filter: alpha(opacity = 60); padding: 0 }
+.boxy-wrapper .bottom { height: 10px; background-color: #EAF2DD; opacity: 0.6; filter: alpha(opacity = 60); padding: 0 }
 
 .boxy-wrapper .left,
-.boxy-wrapper .right { width: 10px; background-color: black; opacity: 0.6; filter: alpha(opacity = 60); padding: 0 }
+.boxy-wrapper .right { width: 10px; background-color: #EAF2DD; opacity: 0.6; filter: alpha(opacity = 60); padding: 0 }
 
 /* Title bar */
 
-.boxy-wrapper .title-bar { font-size: 12px; background-color: black; color: #333; line-height: 1; padding: 6px; position: relative }
+/*.boxy-wrapper .title-bar { font-size: 12px; background-color: black; color: #333; line-height: 1; padding: 6px; position: relative }*/
+.boxy-wrapper .title-bar { border: 1px solid #000; font-size: 14px; font-weight: bold; text-align: left; background-color: #9FCB4E; color: #333; position: relative; padding: 0.2em 0.5em;}
+
+
 .boxy-wrapper .title-bar.dragging { cursor: move; }
-.boxy-wrapper .title-bar .close { color: white; position: absolute; top: 6px; right: 6px; font-size: 90% }
+.boxy-wrapper .title-bar .close { color: #333; position: absolute; top: 4px; right: 6px; font-size: 70% }
+.boxy-wrapper .title-bar .close:hover { color: white; background: none;}
 
 /* Content Region */
 
 .boxy-inner { padding: 0; background-color: #fffeef; color: #333; }
-.boxy-content { padding: 15px; }
+.boxy-content { padding: 15px; border: 1px solid black; border-top-style: none;}
 
 /* Question Boxes */
 
